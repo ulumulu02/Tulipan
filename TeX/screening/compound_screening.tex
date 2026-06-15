@@ -1,0 +1,260 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Packages ---
+\usepackage[margin=2.5cm]{geometry}
+\setlength{\headheight}{28.44pt}
+\addtolength{\topmargin}{-16.44pt}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+
+\definecolor{lightgray}{gray}{0.92}
+
+\addto\captionspolish{
+    \renewcommand{\figurename}{Rycina}
+}
+
+% --- Hyperref setup ---
+\hypersetup{
+    colorlinks = true,
+    linkcolor  = blue!60!black,
+    citecolor  = blue!60!black,
+    urlcolor   = blue!60!black
+}
+
+% --- Header/Footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\textit{Notatka Przesiewowa -- Analiza Związków}}
+\lhead{\includegraphics[scale=0.2]{graphics/logo-i-orzel.png}}
+\rfoot{Strona \thepage}
+\lfoot{\textit{}}
+
+% --- Section formatting ---
+\titleformat{\section}{\large\bfseries}{{\thesection}}{1em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries}{{\thesubsection}}{1em}{}
+
+% --- Custom commands ---
+\newcommand{\placeholder}[1]{\textcolor{red!70!black}{[#1]}}
+\newcommand{\TODO}[1]{\textcolor{orange!80!black}{\textbf{TODO:} #1}}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+% --- Strona tytułowa ---
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\LARGE \textbf{Notatka Przesiewowa} \par}
+    \vspace{0.5cm}
+    {\large Wstępna identyfikacja szkodliwych związków chemicznych\\
+    w badaniu przeżycia róż\par}
+    \vspace{2cm}
+    \includegraphics[width=0.3\textwidth]{graphics/UMB-logo.png}\par\vspace{2cm}
+
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Wersja dokumentu}  & 1.0 \\
+        \textbf{Data}              & \today \\
+        \textbf{Autorzy}           & Julia Czyż, Urszula Skuńczyk, Paulina Włodarczyk \\
+        \textbf{Afiliacja}         & Uniwersytet Medyczny w Białymstoku \\
+                                   & Zakład Biostatystyki i Informatyki Medycznej \\
+        \bottomrule
+    \end{tabular}
+
+    \vspace{2cm}
+    \vfill
+\end{titlepage}
+
+\hypersetup{pageanchor=true}
+
+% --- Spis treści ---
+\tableofcontents
+\newpage
+
+\onehalfspacing
+
+% ============================================================
+\section{Cel i kontekst}
+% ============================================================
+Niniejsza notatka stanowi dokument poprzedzający analizę pilotażową oraz analizę główną badania dotyczącego skuteczności związków chemicznych w konserwacji kwiatów. Jej celem jest identyfikacja związków o potencjalnie szkodliwym działaniu oraz formalne uzasadnienie decyzji o wykluczeniu ich z właściwego badania i analiz z nim związanych. 
+
+Przeprowadzenie owego badania przesiewowego (ang. \textit{screening}) ma na celu optymalizację wykorzystania zasobów oraz ograniczenie niepotrzebnych strat biologicznych
+-- róże nie będą przydzielane do związków wykazujących szkodliwe działanie. Pozwoli to uniknąć zbędnej śmiertelności roślin w analizie pilotażowej i analizie głównej.
+
+% ============================================================
+\section{Badane związki}
+% ============================================================
+
+W badaniu uwzględniono łącznie 15 związków chemicznych. Jako punkt odniesienia (kontrola)
+przyjęto wodę destylowaną (związek 1), wyróżnioną kolorem szarym. Tabela~\ref{tab:zwiazki} zawiera zestawienie wszystkich
+badanych substancji.
+
+\vspace{0.5em}
+\begin{table}[ht]
+\centering
+\caption{Zestawienie badanych związków chemicznych}
+\label{tab:zwiazki}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\centering\bfseries}p{1.5cm} >{\centering\arraybackslash}X}
+\toprule
+\textbf{ID} & \textbf{Nazwa związku} \\
+\midrule
+\rowcolor{lightgray}
+1  & Distilled Water           \\
+2  & Apathic Acid              \\
+3  & Beerse Brew               \\
+4  & Concentrate of Caducues   \\
+5  & Distillate of Discovery   \\
+6  & Essence of Epiphaneia     \\
+7  & Four in December          \\
+8  & Granules of Geheref       \\
+9  & Kar-Hamel Mooh            \\
+10 & Lucifer's Liquid          \\
+11 & Noospherol                \\
+12 & Oil of John's Son         \\
+13 & Power of Perlimpinpin     \\
+14 & Spirit of Scienza         \\
+15 & Zest of Zen               \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ============================================================
+\section{Dane}
+% ============================================================
+
+Analiza przesiewowa przeprowadzona została na danych pilotażowych obejmujących
+$n = 900$ obserwacji (60 kwiatów na związek, $n_c$ = 60). Dla każdej jednostki eksperymentalnej zarejestrowano:
+
+\begin{itemize}[noitemsep]
+    \item \texttt{compound} -- identyfikator zastosowanego związku (1--15),
+    \item \texttt{time} -- czas przeżycia kwiatu od moment zanurzenia w roztowrze do dnia utraty walorów estetycznych (w dniach),
+    \item \texttt{can.be.presented} -- wskaźnik zdarzenia: \texttt{FALSE} (1) oznacza
+          wystąpienie zdarzenia (obumarcie kwiatu), \texttt{TRUE} (0) -- obserwację prawostronnie cenzurowaną.
+\end{itemize}
+
+W danych pilotażowych odsetek obserwacji cenzurowanych wyniósł \textbf{0\%}, co oznacza, że wszystkie 900 kwiatów obumarło w trakcie 30 dni eksperymentu.
+Brak cenzurowania oznacza, że test log-rank dysponuje pełną informacją o czasach
+przeżycia wszystkich jednostek ($n_c$ = 60), co przekłada się na wysoką moc testu.
+
+% ============================================================
+\section{Metody}\label{sec:metody}
+% ============================================================
+Dla każdego związku $c \in \{2, 3, \ldots, 15\}$
+przeprowadzany jest jednostronny, nieparametryczny test log-rank względem grupy kontrolnej ($c = 1$),
+z następującymi hipotezami:
+
+\begin{align*}
+    H_0 &: S_c(t) = S_1(t) \quad \text{dla wszystkich } t \geq 0 \\
+    H_1 &: S_c(t) < S_1(t) \quad \text{dla pewnego } t > 0
+\end{align*}
+
+gdzie $S_c(t)$ oznacza funkcję przeżycia dla związku $c$, a $S_1(t)$ -- funkcję przeżycia
+grupy kontrolnej (woda destylowana). Hipoteza zerowa $H_0$ odnosi się do sytuacji, w której obserwuje się brak istotnych różnic między krzywymi przeżycia dla obu badanych substancji, natomiast hipoteza alternatywna $H_1$, że zastosowanie
+związku $c$ skraca czas przeżycia kwiatu w porównaniu z kontrolą.
+
+W celu kontroli współczynnika FWER (ang. \textit{Family-Wise Error Rate}) stosowana jest poprawka Holma na wielokrotne testowanie (14 równoległych porównań).
+
+Związek uznaje się za szkodliwy, jeśli spełniony jest następujący warunek:
+
+\begin{enumerate}[label=\arabic*)]
+    \item Jednostronny test log-rank daje wartość $p < 0{,}05$ po korekcie na wielokrotne testowanie.
+\end{enumerate}
+
+Ponieważ implementacja algorytmu dostarcza dwustronnej wartości $p$, aby otrzymać jednostronną wartość $p$ dokonuje się następującego przekształcenia:
+\[
+    p_{\text{jednostronna}} = \begin{cases}
+        p_{\text{dwustronna}} / 2 & \text{jeśli } O_c > E_c \quad \text{(związek szkodliwy } H_1\text{)} \\
+        1 - p_{\text{dwustronna}} / 2 & \text{jeśli } O_c \leq E_c \quad \text{(związek neutralny lub korzystny)}
+    \end{cases}
+\]
+gdzie $O_c$ i $E_c$ to odpowiednio liczba obserwowanych i oczekiwanych zdarzeń dla związku $c$.
+W przypadku związku neutralnego lub korzystnego wartość $p_{\text{jednostr}} > 0{,}5$, co zapobiega ich błędnemu wykluczeniu.
+
+% ============================================================
+\section{Analiza statystyczna}
+% ============================================================
+
+\subsection{Krzywe Kaplana--Meiera}
+
+Na Rycinie~\ref{fig:km} przedstawiono krzywe przeżycia Kaplana--Meiera dla wszystkich
+15 związków. W celu zwiększenia przejrzystości oraz ułatwienia oceny działania poszczególnych związków od 2 do 14 zestawiono je na wykresach z grupą kontrolną -- wodą destylowaną, oznaczoną szarą linią przerywaną. Krzywe przeżycia związków 2 (\textit{Apathic Acid}), 3 (\textit{Beerse Brew}) oraz 10 (\textit{Lucifer's Liquid}) przebiegają wyraźnie poniżej krzywej grupy kontrolnej, co wskazuje na znacznie gorsze właściwości konserwacji kwiatów w porównaniu z wodą destylowaną.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{plots/km_compounds_facet.pdf}
+    \caption{Krzywe przeżycia Kaplana--Meiera dla 15 związków chemicznych i grupy kontrolnej.}
+    \label{fig:km}
+\end{figure}
+\newpage
+\subsection{Wyniki testów log-rank}
+
+Tabela~\ref{tab:logrank} zawiera mediany czasu przeżycia oraz wyniki jednostronnych testów log-rank dla każdego z 14 porównań z grupą kontrolną wraz z wartościami $p$ po zastosowaniu korekty Holma na wielokrotne testowanie. Związki uznane za szkodliwe wyróżniono kolorem czerwonym.
+
+\vspace{0.5em}
+\begin{table}[ht]
+\centering
+\caption{Wyniki analizy przesiewowej -- jednostronne testy log-rank vs kontrola.}
+\label{tab:logrank}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\centering}p{1.5cm} >{\centering}p{3.5cm} >{\centering}X >{\centering\arraybackslash}X}
+\toprule
+\textbf{ID} & \textbf{Mediana KM (dni)} & \textbf{$p_{\text{jednostr}}$} & \textbf{$p_{\text{Holm}}$} \\
+\midrule
+1  & 9{,}0  & --          & -- \\
+\rowcolor{red!20}
+2  & 3{,}0  & $< 0{,}001$ & $< 0{,}001$ \\
+\rowcolor{red!20}
+3  & 3{,}0  & $< 0{,}001$ & $< 0{,}001$ \\
+4  & 17{,}5 & $> 0{,}999$ & $> 0{,}999$ \\
+5  & 20{,}0 & $> 0{,}999$ & $> 0{,}999$ \\
+6  & 17{,}0 & $> 0{,}999$ & $> 0{,}999$ \\
+7  & 13{,}0 & $> 0{,}999$ & $> 0{,}999$ \\
+8  & 20{,}0 & $> 0{,}999$ & $> 0{,}999$ \\
+9  & 15{,}0 & $> 0{,}999$ & $> 0{,}999$ \\
+\rowcolor{red!20}
+10 & 1{,}0  & $< 0{,}001$ & $< 0{,}001$ \\
+11 & 21{,}0 & $> 0{,}999$ & $> 0{,}999$ \\
+12 & 19{,}5 & $> 0{,}999$ & $> 0{,}999$ \\
+13 & 20{,}0 & $> 0{,}999$ & $> 0{,}999$ \\
+14 & 14{,}5 & $> 0{,}999$ & $> 0{,}999$ \\
+15 & 17{,}0 & $> 0{,}999$ & $> 0{,}999$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ============================================================
+\section{Podsumowanie}
+% ============================================================
+
+Na podstawie analizy przeprowadzonej zgodnie z kryterium określonym w sekcji~\ref{sec:metody}, na przyjętym poziomie istotności $\alpha = 0{,}05$, uznano następujące związki za szkodliwe:
+
+\begin{itemize}
+    \item 2 -- Apathic Acid,
+    \item 3 -- Beerse Brew,
+    \item 10 -- Lucifer's Liquid.
+\end{itemize}
+
+Związki te zostają \textbf{wykluczone ze wszystkich dalszych etapów badania}, tj.\
+z analizy pilotażowej oraz analizy głównej. Pozostałe 12 związków (w tym grupa kontrolna) zostają przekazane do analizy pilotażowej zgodnie z protokołem.
+
+\end{document}

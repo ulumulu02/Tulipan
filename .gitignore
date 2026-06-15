@@ -1,0 +1,26 @@
+# R session files
+.RData
+.Rhistory
+
+# RStudio user-specific files
+.Rproj.user/
+
+# Fitted model files (large binaries — copy separately)
+*.rds
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bbl-SAVE-ERROR
+*.bcf
+*.blg
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+
+# Claude local settings
+.claude/settings.local.json

@@ -1,0 +1,516 @@
+% ============================================================
+%  CUTE PINK MINIMAL BEAMER TEMPLATE
+% ============================================================
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{eso-pic}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{graphicx}
+\usetikzlibrary{shapes.geometric, positioning, calc}
+
+% ── Palette ─────────────────────────────────────────────────
+\definecolor{DeepPink}{HTML}{C2185B}
+\definecolor{MidPink}{HTML}{E91E8C}
+\definecolor{SoftPink}{HTML}{F8BBD9}
+\definecolor{BlushPink}{HTML}{FCE4EC}
+\definecolor{PalePink}{HTML}{FFF0F5}
+\definecolor{DarkGray}{HTML}{3D2C35}
+\definecolor{MutedGray}{HTML}{8D6E7F}
+\definecolor{tomasz}{RGB}{255, 193, 208}
+
+% ── Strip Beamer chrome ─────────────────────────────────────
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
+\arrayrulecolor{SoftPink}
+
+% ── Global colors ───────────────────────────────────────────
+\setbeamercolor{normal text}{fg=DarkGray, bg=white}
+\setbeamercolor{frametitle}{fg=DeepPink}
+\setbeamercolor{item}{fg=DeepPink}
+\setbeamercolor{block title}{fg=white, bg=DeepPink}
+\setbeamercolor{block body}{fg=DarkGray, bg=BlushPink}
+
+% ── Fonts ───────────────────────────────────────────────────
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+\setbeamerfont{frametitle}{size=\large, series=\bfseries}
+\setbeamerfont{block title}{size=\normalsize, series=\bfseries}
+
+% ── Bullet style ────────────────────────────────────────────
+\setbeamertemplate{itemize item}{%
+  \tikz[baseline=-0.5ex]\node[circle,fill=DeepPink,inner sep=2pt]{};%
+}
+\setbeamertemplate{itemize subitem}{%
+  \tikz[baseline=-0.5ex]\node[circle,fill=SoftPink,inner sep=1.5pt]{};%
+}
+\setlength{\leftmargini}{1.4em}
+
+% ── Frame title ─────────────────────────────────────────────
+\setbeamertemplate{frametitle}{%
+  \vspace{0pt}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[BlushPink] (current page.north west)
+      rectangle ([yshift=-1.3cm]current page.north east);
+    \node[anchor=north west,font=\tiny\bfseries\color{DeepPink},
+          inner sep=0pt,xshift=0.7cm,yshift=-0.28cm]
+      at (current page.north west) {\insertsection};
+    \node[anchor=north west,font=\large\bfseries\color{DeepPink},
+          inner sep=0pt,xshift=0.7cm,yshift=-0.55cm]
+      at (current page.north west) {\insertframetitle};
+  \end{tikzpicture}%
+  \vspace{0.85cm}%
+}
+
+% ── Page number ─────────────────────────────────────────────
+\newcommand{\pagenumber}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south east,font=\tiny\color{MutedGray},inner sep=6pt]
+      at (current page.south east) {\insertframenumber};
+  \end{tikzpicture}%
+}
+
+% ── Stat card ────────────────────────────────────────────────
+\newcommand{\statcard}[2]{%
+  \begin{tikzpicture}
+    \node[fill=BlushPink, rounded corners=5pt,
+          minimum width=4.6cm, minimum height=2.1cm,
+          draw=SoftPink, line width=0.6pt,
+          align=center, inner sep=8pt]{%
+      {\color{DeepPink}\LARGE\bfseries #1}\\[4pt]
+      {\color{MutedGray}\small #2}%
+    };
+  \end{tikzpicture}%
+}
+
+% ── Feature card ─────────────────────────────────────────────
+\newcommand{\featurecard}[3]{%
+  \begin{tikzpicture}
+    \node[circle,fill=SoftPink,minimum size=1.1cm](ic)
+      {{\color{DeepPink}\large #1}};
+    \node[below=0.2cm of ic, font=\small\bfseries\color{DeepPink},
+          text width=3.4cm,align=left](ttl){#2};
+    \node[below=0.05cm of ttl, font=\scriptsize\color{MutedGray},
+          text width=3.4cm,align=left]{#3};
+  \end{tikzpicture}%
+}
+
+% ── Spaced caps helper ───────────────────────────────────────
+\newcommand{\spacedcaps}[1]{\textsc{\MakeLowercase{#1}}}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+% ─────────────────────────────────────────────────────────────
+% 1. TITLE SLIDE
+% ─────────────────────────────────────────────────────────────
+{
+\setbeamercolor{background canvas}{bg=white}
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+  % Left blush panel
+  \fill[BlushPink]
+    (current page.north west) rectangle
+    ([xshift=5.2cm]current page.south west);
+  % Large circle bleeds off top-left
+  \fill[SoftPink!60]
+    ([xshift=-0.9cm,yshift=0.9cm]current page.north west) circle (1.8cm);
+  % Small bottom circle
+  \fill[SoftPink]
+    ([xshift=2.6cm,yshift=1.2cm]current page.south west) circle (0.75cm);
+  % Heart
+  \node[font=\fontsize{48}{48}\selectfont\color{DeepPink}]
+    at ([xshift=2.6cm,yshift=0.7cm]current page.west) {$\heartsuit$};
+  % PRESENTATION label
+  \node[font=\tiny\bfseries\color{DeepPink},
+        anchor=north,align=center]
+    at ([xshift=2.6cm,yshift=-0.15cm]current page.west)
+    {Julia Czyż \\ Urszula Skuńczyk \\ Paulina Włodarczyk};
+  % Title
+  \node[anchor=west,font=\LARGE\bfseries\color{DeepPink},
+        text width=9cm,align=left]
+    at ([xshift=5.8cm,yshift=1.2cm]current page.west)
+    {Prezentacja wyników\\częściowych};
+  % Subtitle
+  \node[anchor=west,font=\normalsize\color{MutedGray},
+        text width=9cm,align=left]
+    at ([xshift=5.8cm,yshift=-0.35cm]current page.west)
+    {Bayesowska Analiza Przeżycia};
+  % Author / date row
+  \node[anchor=west,font=\small\color{MutedGray},align=left]
+    at ([xshift=5.8cm,yshift=-1.55cm]current page.west)
+    {Uniwersytet Medyczny w Białymstoku \\ \today };
+  % Subtle circle right
+  \fill[BlushPink!50]
+    ([xshift=-1.0cm,yshift=-0.8cm]current page.north east) circle (1.5cm);
+\end{tikzpicture}
+\end{frame}
+}
+
+% ─────────────────────────────────────────────────────────────
+% 2. AGENDA
+% ─────────────────────────────────────────────────────────────
+{
+\setbeamercolor{background canvas}{bg=PalePink}
+\begin{frame}[plain]
+\pagenumber
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north west,font=\large\bfseries\color{DeepPink},
+        inner sep=0pt,xshift=0.7cm,yshift=-0.5cm]
+    at (current page.north west) {Charakterystyka danych i specyfikacja modelu};
+\end{tikzpicture}
+
+\vspace{0.5cm}
+
+% Four agenda cards
+\begin{columns}[T,totalwidth=\linewidth]
+  \begin{column}{0.325\linewidth}
+    \begin{tikzpicture}
+      \node[fill=white,rounded corners=5pt,
+            minimum width=5cm,minimum height=5.85cm,
+            draw=SoftPink,line width=0.6pt,
+            inner sep=0pt,anchor=north west](C) at (0,0){};
+      \node[anchor=north west,font=\small\bfseries\color{DeepPink},
+            text width=3cm,inner sep=0pt,
+            yshift=-0.3cm,xshift=10pt] at (C.north west) {Model};      
+      \node[anchor=north west,font=\scriptsize\color{MutedGray},
+            text width=5cm,inner sep=0pt,
+            yshift=-0.8cm,xshift=10pt] at (C.north west)
+            {$T_i \sim$Weibull($k, \lambda_i$)};
+      \node[anchor=north west,font=\scriptsize\color{MutedGray},
+            text width=5cm,inner sep=0pt,
+            yshift=-1.3cm,xshift=10pt] at (C.north west)
+            {log$\lambda_i = \beta_0 + \alpha_{c(i)} + \gamma_{s(i)} + \delta_{g(i)}$};
+      % beta_0
+  \node[anchor=north west,font=\scriptsize\bfseries\color{DeepPink},
+        inner sep=0pt,yshift=-1.8cm,xshift=10pt] at (C.north west)
+        {$\beta_0$};
+  \node[anchor=north west,font=\scriptsize\color{MutedGray},
+        text width=4.2cm,inner sep=0pt,yshift=-1.8cm,xshift=0.8cm] at (C.north west)
+        { - intercept};
+
+  % alpha
+  \node[anchor=north west,font=\scriptsize\bfseries\color{DeepPink},
+        inner sep=0pt,yshift=-2.3cm,xshift=10pt] at (C.north west)
+        {$\alpha_{c(i)}$};
+  \node[anchor=north west,font=\scriptsize\color{MutedGray},
+        text width=3.8cm,inner sep=0pt,yshift=-2.3cm,xshift=0.9cm] at (C.north west)
+        {  - efekt związku};
+
+  % gamma
+  \node[anchor=north west,font=\scriptsize\bfseries\color{DeepPink},
+        inner sep=0pt,yshift=-2.8cm,xshift=10pt] at (C.north west)
+        {$\gamma_{s(i)}$};
+  \node[anchor=north west,font=\scriptsize\color{MutedGray},
+        text width=3.8cm,inner sep=0pt,yshift=-2.8cm,xshift=0.9cm] at (C.north west)
+        { - efekt gatunku};
+
+  % delta
+  \node[anchor=north west,font=\scriptsize\bfseries\color{DeepPink},
+        inner sep=0pt,yshift=-3.3cm,xshift=10pt] at (C.north west)
+        {$\delta_{g(i)}$};
+  \node[anchor=north west,font=\scriptsize\color{MutedGray},
+        text width=3.8cm,inner sep=0pt,yshift=-3.3cm,xshift=0.9cm] at (C.north west)
+        {  - efekt ogrodu};
+
+  % separator 2
+  \draw[SoftPink, line width=0.4pt]
+    ([xshift=8pt, yshift=-3.75cm]C.north west) --
+    ([xshift=4.7cm, yshift=-3.75cm]C.north west);
+
+  % priors label
+  \node[anchor=north west,font=\scriptsize\bfseries\color{DeepPink},
+        inner sep=0pt,yshift=-4cm,xshift=10pt] at (C.north west)
+        {Rozkłady a priori:};
+  \node[anchor=north west,font=\scriptsize\color{MutedGray},
+        text width=4.2cm,inner sep=0pt,yshift=-4.4cm,xshift=10pt] at (C.north west)
+        {$\beta_0 \sim \mathcal{N}(2{,}918; 0{,}362)$};
+  \node[anchor=north west,font=\scriptsize\color{MutedGray},
+        text width=4.2cm,inner sep=0pt,yshift=-4.9cm,xshift=10pt] at (C.north west)
+        {$\alpha_{c(i)}, \gamma_{s(i)}, \delta_{g(i)} \sim \mathcal{N}(0; 0{,}24)$};     
+    \node[anchor=north west,font=\scriptsize\color{MutedGray},
+        text width=4.2cm,inner sep=0pt,yshift=-5.4cm,xshift=10pt] at (C.north west)
+        {$k \sim Gamma(15{,}466; 3{,}544)$};   
+    \end{tikzpicture}
+  \end{column}
+  \begin{column}{0.575\linewidth}
+\scalebox{0.65}{%
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{
+  >{\columncolor{white}\centering\arraybackslash}m{1.8cm}
+  >{\centering\arraybackslash}m{1.0cm}
+  >{\centering\arraybackslash}m{3.0cm}
+  >{\centering\arraybackslash}m{2.4cm}
+  >{\centering\arraybackslash}m{2.4cm}
+}
+\arrayrulecolor{SoftPink}
+\toprule
+\rowcolor{DeepPink}
+{\color{white}\bfseries związek} &
+{\color{white}\bfseries $n$} &
+{\color{white}\bfseries mediana czasu przeżycia} &
+{\color{white}\bfseries \% cenzurowań} &
+{\color{white}\bfseries liczba zdarzeń} \\
+\midrule
+\rowcolor{white}
+1  & 160 & 9    & 0      & 0  \\
+\rowcolor{PalePink}
+4  & 160 & 18   & 0      & 0  \\
+\rowcolor{white}
+5  & 160 & 20   & 1.88   & 3  \\
+\rowcolor{PalePink}
+6  & 160 & 17   & 12.5   & 20 \\
+\rowcolor{white}
+7  & 160 & 12.5 & 3.12   & 5  \\
+\rowcolor{PalePink}
+8  & 160 & 20   & 0.625  & 1  \\
+\rowcolor{white}
+9  & 160 & 15   & 0      & 0  \\
+\rowcolor{PalePink}
+11 & 160 & 20   & 0      & 0  \\
+\rowcolor{white}
+12 & 160 & 19.5 & 0      & 0  \\
+\rowcolor{PalePink}
+13 & 160 & 20   & 0      & 0  \\
+\rowcolor{white}
+14 & 160 & 16.5 & 3.75   & 6  \\
+\rowcolor{PalePink}
+15 & 160 & 17   & 0.625  & 1  \\
+\bottomrule
+\end{tabular}
+}
+  \end{column}
+\end{columns}
+\end{frame}
+}
+
+% ─────────────────────────────────────────────────────────────
+% 3. SECTION DIVIDER
+% ─────────────────────────────────────────────────────────────
+{
+\setbeamercolor{background canvas}{bg=white }
+\begin{frame}{Wyniki modelu Weibulla}
+\pagenumber
+\begin{columns}[T, totalwidth=\linewidth]
+ 
+  %% ── LEFT CARD: model summary ──────────────────────────
+ \begin{column}{0.3\linewidth}
+  \begin{tikzpicture}
+    \node[fill=white, rounded corners=5pt,
+          minimum width=5.5cm, minimum height=6cm,
+          draw=SoftPink, line width=0.6pt,
+          inner sep=0pt, anchor=north west](C) at (0,0.3){};
+
+    % Formula
+    \node[anchor=north west,font=\scriptsize\bfseries\color{DeepPink},
+          inner sep=0pt,yshift=-0.35cm,xshift=10pt] at (C.north west)
+          {Formu\l{}a:};
+    \node[anchor=north west,font=\scriptsize\color{MutedGray},
+          text width=5.5cm,inner sep=0pt,yshift=-0.7cm,xshift=10pt] at (C.north west)
+          {\texttt{time $\mid$ cens $\sim$ compound\\ + species + garden}};
+
+    % separator
+    \draw[SoftPink,line width=0.4pt]
+      ([xshift=8pt,yshift=-1.5cm]C.north west) --
+      ([xshift=5.2cm,yshift=-1.5cm]C.north west);
+
+    % MCMC
+    \node[anchor=north west,font=\scriptsize\bfseries\color{DeepPink},
+          inner sep=0pt,yshift=-1.75cm,xshift=10pt] at (C.north west)
+          {MCMC:};
+    \node[anchor=north west,font=\scriptsize\color{MutedGray},
+          text width=4.8cm,inner sep=0pt,yshift=-2.15cm,xshift=10pt] at (C.north west)
+          {4 \l{}a\'ncuchy $\times$ 2000 iteracji\\4000 pr\'obek a posteriori};
+
+    % separator
+    \draw[SoftPink,line width=0.4pt]
+      ([xshift=8pt,yshift=-2.95cm]C.north west) --
+      ([xshift=5.2cm,yshift=-2.95cm]C.north west);
+
+    % Shape
+    \node[anchor=north west,font=\scriptsize\bfseries\color{DeepPink},
+          inner sep=0pt,yshift=-3.2cm,xshift=10pt] at (C.north west)
+          {Parametr kszta\l{}tu:};
+    \node[anchor=north west,font=\normalsize\bfseries\color{DeepPink},
+          inner sep=0pt,yshift=-3.6cm,xshift=10pt] at (C.north west)
+          {$k = 4{,}40$};
+    \node[anchor=north west,font=\scriptsize\color{MutedGray},
+          inner sep=0pt,yshift=-4.05cm,xshift=10pt] at (C.north west)
+          {95\% CI: [4{,}24;\ 4{,}55]};
+
+    % separator
+    \draw[SoftPink,line width=0.4pt]
+      ([xshift=8pt,yshift=-4.4cm]C.north west) --
+      ([xshift=5.2cm,yshift=-4.4cm]C.north west);
+
+    % Convergence
+    \node[anchor=north west,font=\scriptsize\bfseries\color{DeepPink},
+          inner sep=0pt,yshift=-4.65cm,xshift=10pt] at (C.north west)
+          {Zbie\.zno\'s\'c:};
+    \node[anchor=north west,font=\scriptsize\color{MutedGray},
+          text width=4.5cm,inner sep=0pt,yshift=-5.05cm,xshift=10pt] at (C.north west)
+          {$\hat{R} \approx 1{,}00$ dla wszystkich parametr\'ow \checkmark};
+
+  \end{tikzpicture}
+\end{column}
+ 
+  %% ── RIGHT CARD: compound effects table ────────────────
+\begin{column}{0.55\linewidth}
+  \begin{tikzpicture}
+    \node[anchor=north west, inner sep=0pt,
+          yshift=-0.7cm, xshift=4pt] at (0,0) {%
+      \scalebox{0.76}{%
+      \renewcommand{\arraystretch}{1.28}
+      \setlength{\tabcolsep}{8pt}
+      \arrayrulecolor{SoftPink}
+      \begin{tabular}{
+        >{\columncolor{BlushPink}\centering\arraybackslash}m{1.6cm}
+        >{\centering\arraybackslash}m{1.6cm}
+        >{\centering\arraybackslash}m{3.2cm}
+      }
+      \toprule
+      \rowcolor{DeepPink}
+      {\color{white}związek} &
+      {\color{white}$\hat{\alpha}_{c(i)}$} &
+      {\color{white}\bfseries 95\% CrI} \\
+      \midrule
+      \rowcolor{PalePink}
+      6  & \bfseries\color{DeepPink}0{,}81 & [0{,}76;\ 0{,}87] \\
+      5  & 0{,}77 & [0{,}72;\ 0{,}82] \\
+      \rowcolor{PalePink}
+      8  & 0{,}73 & [0{,}68;\ 0{,}78] \\
+      11 & 0{,}75 & [0{,}70;\ 0{,}81] \\
+      \rowcolor{PalePink}
+      12 & 0{,}72 & [0{,}67;\ 0{,}77] \\
+      13 & 0{,}70 & [0{,}65;\ 0{,}76] \\
+      \rowcolor{PalePink}
+      4  & 0{,}69 & [0{,}63;\ 0{,}74] \\
+      14 & 0{,}67 & [0{,}61;\ 0{,}72] \\
+      \rowcolor{PalePink}
+      15 & 0{,}65 & [0{,}60;\ 0{,}70] \\
+      7  & 0{,}58 & [0{,}53;\ 0{,}64] \\
+      \rowcolor{PalePink}
+      9  & \bfseries\color{MutedGray}0.43 & [0{,}38,\ 0{,}48] \\
+      \bottomrule
+      \end{tabular}}
+    };
+  \end{tikzpicture}
+\end{column}
+ 
+\end{columns}
+\end{frame}
+}
+
+% ─────────────────────────────────────────────────────────────
+% 4. CONTENT SLIDE
+% ─────────────────────────────────────────────────────────────
+{
+\setbeamercolor{background canvas}{bg=white}
+\begin{frame}{Ranking związków}
+\pagenumber
+\begin{figure}
+  \includegraphics[width=0.65\textwidth]{"/home/ulasku/projects/Tulipan/TeX/plots/compound_ranking.pdf"}
+\end{figure}
+\end{frame}
+}
+
+% ─────────────────────────────────────────────────────────────
+% 5. FEATURES SLIDE
+% ─────────────────────────────────────────────────────────────
+{
+\setbeamercolor{background canvas}{bg=PalePink}
+\begin{frame}{Krzywe przeżycia a posteriori}
+\pagenumber
+\begin{columns}[T,totalwidth=\linewidth]
+  \begin{column}{0.45\linewidth}
+    \begin{figure}
+      \includegraphics[width=0.8\textwidth]{"/home/ulasku/projects/Tulipan/TeX/plots/posterior_surv_curves.pdf"}
+    \end{figure}
+  \end{column}
+  \begin{column}{0.45\linewidth}
+    \vspace{0.25cm}
+    \scalebox{0.75}{%
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{8pt}
+\arrayrulecolor{SoftPink}
+\begin{tabular}{
+  >{\columncolor{BlushPink}\centering\arraybackslash}m{1.6cm}
+  >{\centering\arraybackslash}m{2.2cm}
+  >{\centering\arraybackslash}m{2.2cm}
+}
+\toprule
+\rowcolor{DeepPink}
+{\color{white}\bfseries związek} &
+{\color{white}\bfseries $P(t > 10)$} &
+{\color{white}\bfseries $P(t > 22)$} \\
+\midrule
+\rowcolor{SoftPink}
+6  & 0{,}971 & 0{,}387 \\
+5  & 0{,}965 & 0{,}322 \\
+\rowcolor{PalePink}
+11 & 0{,}962 & 0{,}291 \\
+8  & 0{,}958 & 0{,}255 \\
+\rowcolor{PalePink}
+12 & 0{,}956 & 0{,}237 \\
+13 & 0{,}953 & 0{,}219 \\
+\rowcolor{PalePink}
+4  & 0{,}950 & 0{,}194 \\
+14 & 0{,}945 & 0{,}167 \\
+\rowcolor{PalePink}
+15 & 0{,}941 & 0{,}147 \\
+7  & 0{,}922 & 0{,}077 \\
+\rowcolor{PalePink}
+9  & 0{,}855 & 0{,}007 \\
+1  & \bfseries\color{MutedGray}0{,}350 & \bfseries\color{MutedGray}0{,}000 \\
+\bottomrule
+\end{tabular}}
+  \end{column}
+\end{columns}
+\end{frame}
+}
+
+% ─────────────────────────────────────────────────────────────
+% 6. QUOTE SLIDE
+% ─────────────────────────────────────────────────────────────
+{
+\setbeamercolor{background canvas}{bg=tomasz}
+\begin{frame}[plain]
+  \pagenumber
+  \centering
+\includegraphics[width = 0.7\textwidth]{"/home/ulasku/projects/Tulipan/TeX/graphics/BAYES-thomas.png"}
+\end{frame}
+}
+
+% ─────────────────────────────────────────────────────────────
+% 7. THANK YOU
+% ─────────────────────────────────────────────────────────────
+{
+\setbeamercolor{background canvas}{bg=BlushPink}
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+  % Big soft circle center
+  \fill[SoftPink!65] (current page.center) circle (3.0cm);
+  % Small accent circle top-right
+  \fill[DeepPink!28]
+    ([xshift=-1.1cm,yshift=-0.9cm]current page.north east) circle (1.1cm);
+  % Heart
+  \node[font=\fontsize{48}{48}\selectfont\color{DeepPink}]
+    at ([yshift=1.4cm]current page.center) {$\heartsuit$};
+  % Thank you
+  \node[font=\Huge\bfseries\color{DeepPink}]
+    at ([yshift=0.05cm]current page.center) {Dziękujemy za uwagę!};
+\end{tikzpicture}
+\end{frame}
+}
+
+\end{document}

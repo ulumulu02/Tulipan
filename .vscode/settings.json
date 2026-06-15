@@ -1,0 +1,11 @@
+
+{
+    "workbench.colorTheme": "Ev Fairy",
+      "r.rpath.linux": "/usr/bin/R",
+     "r.lsp.enabled": true,
+    "r.lsp.path": "/usr/bin/R",
+    "r.rterm.linux": "/usr/bin/R",
+      "r.sessionWatcher": true,
+  "r.bracketedPaste": true,
+  "r.lsp.diagnostics": false
+}

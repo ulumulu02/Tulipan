@@ -1,0 +1,8 @@
+Demo fit — 2026-06-14 17:23:23 | czas: 3.7 min
+
+fit_main — 2026-06-14 17:53:51 | czas: 6.5 min
+
+fit_main_099 — 2026-06-14 18:09:06 | czas: 6.0 min
+
+fit_main_fixed — 2026-06-14 18:21:48 | czas: 2.7 min
+

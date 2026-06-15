@@ -1,0 +1,227 @@
+\documentclass[aspectratio=169, 12pt]{beamer}
+
+% --- Packages ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{lmodern}
+
+% --- Theme ---
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\setbeamerfont{title}{size=\large, series=\bfseries}
+\setbeamerfont{frametitle}{size=\normalsize, series=\bfseries}
+
+% --- Title ---
+\title[Bayesowska analiza przeżycia róż]{Bayesowska parametryczna analiza przeżycia róż:\\
+ocena skuteczności związków chemicznych}
+\author{Julia Czyż \and Urszula Skuńczyk \and Paulina Włodarczyk}
+\institute[UMB]{Zakład Biostatystyki i Informatyki Medycznej\\
+Uniwersytet Medyczny w Białymstoku}
+\date{\today}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+% --- Frame 1: Title ---
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% --- Frame 2: Wprowadzenie + Pytanie naukowe ---
+\begin{frame}{Wprowadzenie}
+    \begin{columns}
+        \begin{column}{0.58\textwidth}
+            \begin{itemize}
+                \item Jean-Baptiste de la Tour Fleurie musi przetransportować \textbf{czarnego tulipana} z atlantyckiego archipelagu do La Rochelle
+                \item \textbf{Czas podróży:} typowo 10 dni, zakres 8--22 dni
+                \item Tulipan jest rzadki -- badanie prowadzone na \textbf{różach} jako gatunku zastępczym
+                \item Testowanych \textbf{15 związków chemicznych} jako potencjalnych konserwantów
+            \end{itemize}
+            \vspace{0.5em}
+            \begin{block}{Pytanie naukowe}
+                Który związek zapewnia \textbf{najdłuższy czas przeżycia} kwiatu podczas transportu?
+            \end{block}
+        \end{column}
+        \begin{column}{0.38\textwidth}
+            \centering
+            \includegraphics[width=0.75\textwidth]{graphics/UMB-logo.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Frame 3: Cele i kryteria decyzyjne ---
+\begin{frame}{Cele i kryteria decyzyjne}
+    \begin{block}{Cel główny}
+        Identyfikacja związku zapewniającego \textbf{najdłuższy czas przeżycia} kwiatu.\\[0.3em]
+        Związki zostaną uszeregowane według \textbf{mediany czasu przeżycia a posteriori}. Związek z najwyższą medianą uznany zostanie za najlepszy.
+    \end{block}
+    \vspace{0.5em}
+    \begin{block}{Cele drugorzędowe}
+        Dla każdego związku:
+        \begin{itemize}
+            \item Estymacja mediany czasu przeżycia wraz z 95\% PrI
+            \item Ocena prawdopodobieństwa przeżycia przez \textbf{10 dni} (typowy czas podróży)
+            \item Ocena prawdopodobieństwa przeżycia przez \textbf{22 dni} (najgorszy scenariusz)
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% --- Frame 4: Schemat badania ---
+\begin{frame}{Schemat badania}
+    \begin{columns}
+        \begin{column}{0.55\textwidth}
+            \textbf{Projekt blokowy:}
+            \begin{itemize}
+                \item \textbf{4 bloki} = 2 ogrody $\times$ 2 gatunki (\textit{T.~floribunda}, \textit{T.~hybrid})
+                \item Losowy przydział do roztworów w obrębie bloku
+                \item Stałe warunki środowiskowe (symulacja warunków pokładowych)
+                \item Czas trwania: 30 dni; codzienne oceny wizualne (zaślepione)
+            \end{itemize}
+            \vspace{0.4em}
+            \textbf{Związki:}
+            \begin{itemize}
+                \item Pilotaż: 15 związków; badanie główne: \textbf{12 związków}\\
+                      (wykluczono 2, 3, 10 -- szkodliwe)
+                \item Związek 1 (woda destylowana) -- \textbf{kontrola}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.42\textwidth}
+            \textbf{Punkt końcowy:}\\[0.4em]
+            Czas przeżycia (\texttt{time}) -- liczba dni do obumarcia kwiatu; prawostronnie cenzurowany w dniu 30.
+
+            \vspace{0.8em}
+            \textbf{Zmienne w modelu:}
+            \begin{itemize}
+                \item \texttt{compound} -- efekt stały
+                \item \texttt{species} -- efekt stały
+                \item \texttt{garden} -- efekt losowy
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Frame 5: EDA ---
+\begin{frame}{Eksploracyjna analiza danych pilotażowych}
+    \begin{columns}
+        \begin{column}{0.48\textwidth}
+            \textbf{Kluczowe wyniki ($n = 900$, cenzurowanie: 0\%):}
+            \vspace{0.3em}
+            \begin{tabular}{lcc}
+                \toprule
+                \textbf{Grupa} & \textbf{Związki} & \textbf{Mediana} \\
+                \midrule
+                Kontrolna    & 1         & 9 dni      \\
+                Szkodliwe    & 2, 3, 10  & 1--3 dni   \\
+                Umiarkowane  & 7, 9, 14  & 13--15 dni \\
+                Korzystne    & pozostałe & 17--21 dni \\
+                \bottomrule
+            \end{tabular}
+            \vspace{0.4em}
+            \begin{itemize}
+                \item \textbf{Dwumodalność} rozkładu -- silne zróżnicowanie między grupami
+                \item Związki 2, 3, 10 wykluczone z analizy głównej
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Weryfikacja modelu Weibulla (CLogLog):}
+            \begin{itemize}
+                \item $\log(-\log\hat{S}(t))$ vs $\log(t)$ -- krzywe \textbf{liniowe i równoległe} $\Rightarrow$ proporcjonalne hazardy, wspólny $k$
+                \item $\hat{k}_{\mathrm{MLE}} = 4{,}36$ ($k > 1$: narastający hazard)
+                \item Dane pilotażowe wykorzystane do \textbf{kalibracji rozkładów a priori}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Frame 6: Model + Punkty końcowe ---
+\begin{frame}{Model statystyczny i punkty końcowe}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Bayesowski model Weibulla:}
+            \[
+                T_i \sim \mathrm{Weibull}(k,\, \lambda_i), \quad
+                S(t \mid k, \lambda_i) = \exp\!\left[-\!\left(\tfrac{t}{\lambda_i}\right)^{\!k}\right]
+            \]
+            \[
+                \log \lambda_i = \beta_0 + \alpha_{c(i)} + \gamma_{s(i)} + b_{g(i)}
+            \]
+            \vspace{0.2em}
+            \textbf{Rozkłady a priori} (skalibrowane na pilocie):
+            \[
+                k \sim \mathrm{Gamma},\quad \beta_0,\,\alpha_c,\,\gamma_s \sim \mathcal{N},\quad \sigma_g \sim \mathrm{HN}
+            \]
+            Estymacja: HMC (\texttt{brms}/Stan), 4 łańcuchy $\times$ 1000 iter.
+        \end{column}
+        \begin{column}{0.47\textwidth}
+            \textbf{Pierwszorzędowy:} ranking wg mediany a posteriori
+            \[
+                \tilde{m}_c = \mathrm{med}_s\bigl\{\exp(\beta_0^{(s)}\!+\alpha_c^{(s)})\cdot(\ln 2)^{1/k^{(s)}}\bigr\}
+            \]
+            \textbf{Drugorzędowe:} prawdopodobieństwo przeżycia
+            \[
+                \hat{S}_c(t) = \frac{1}{S}\sum_{s=1}^{S} \exp\!\left[-\!\left(\frac{t}{\lambda_c^{(s)}}\right)^{\!k^{(s)}}\right]
+            \]
+            \[
+                t \in \{10,\,22\},\quad \lambda_c^{(s)} = \exp\!\bigl(\beta_0^{(s)}\!+\alpha_c^{(s)}\bigr)
+            \]
+            \footnotesize Wyniki raportowane z 95\% PrI.
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Frame 7: Liczebność próby ---
+\begin{frame}{Uzasadnienie liczebności próby}
+    \begin{columns}
+        \begin{column}{0.52\textwidth}
+            \textbf{Badanie główne: $n \approx 2000$}
+            \begin{itemize}
+                \item Maksymalna dostępna liczba kwiatów
+                \item $12 \times 2 \times 2 = 48$ komórek eksperymentalnych
+                \item $\approx 40$ kwiatów na komórkę (vs.\ 15 w pilocie)
+            \end{itemize}
+            \vspace{0.5em}
+            \textbf{Efekt zwiększenia próby:}
+            \begin{itemize}
+                \item Wzrost $\approx 2{,}7\times$ względem pilotu
+                \item Szerokość PrI węższa o czynnik $\sqrt{2{,}7} \approx 1{,}6$
+                \item Pewniejszy ranking związków
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.44\textwidth}
+            \centering
+            \begin{tabular}{lcc}
+                \toprule
+                & \textbf{Pilot} & \textbf{Główne} \\
+                \midrule
+                Związki        & 15  & 12            \\
+                Kwiaty / kom.  & 15  & 40            \\
+                Łącznie        & 900 & $\approx$2000 \\
+                \bottomrule
+            \end{tabular}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Frame 8: Dziękujemy ---
+\begin{frame}[plain]
+    \centering
+    \vspace{2.5em}
+    {\Large \textbf{Dziękujemy za uwagę}}\\[1.5em]
+    \small
+    \begin{tabular}{ll}
+        Autorzy:   & Julia Czyż, Urszula Skuńczyk, Paulina Włodarczyk \\
+        Afiliacja: & Zakład Biostatystyki i Informatyki Medycznej, UMB \\
+    \end{tabular}
+\end{frame}
+
+% ============================================================
+\end{document}
