@@ -1,4 +1,11 @@
-
+library(dplyr)
+library(ggplot2)
+library(xtable)
+library(survival)
+library(survminer) 
+library(ggtext)
+library(purrr)
+library(tidyr)
 rose <- read.csv2("roses_analysis2.csv")
 compound_names <- c(
   `1`  = "1 Distilled Water",
@@ -252,9 +259,6 @@ clog_df <- surv_summary(fit_clog, data = surv_rose) %>%
 
 cloglog_plot <- ggplot(clog_df, aes(x = log(time), y = cloglog, color = compound_label)) +
   geom_step(linewidth = 0.8) +
-  scale_color_manual(
-    values = colorRampPalette(c("#FFB3DE", "#C868C8", "#7B2D87", "#4A0072"))(12)
-  ) +
   labs(
     title = "Wykres Complementary Log-Log według związku",
     x = "log(czas) [dni]",
@@ -272,7 +276,7 @@ cloglog_plot <- ggplot(clog_df, aes(x = log(time), y = cloglog, color = compound
 cloglog_plot
 
 ggsave(cloglog_plot,
-  filename = "TeX/plots/cloglog.pdf",
+  filename = "TeX/SAP/plots/cloglog.pdf",
   device = cairo_pdf,
   width = 9, height = 6
 )

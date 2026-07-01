@@ -130,7 +130,7 @@ Cele drugorzędowe obejmują:
 \begin{itemize}[noitemsep]
     \item Estymację prawdopodobieństwa przeżycia kwiatu przez typowy czas podróży ($t = 10$ dni) dla każdego związku, wyznaczoną jako uśrednioną po próbkach a posteriori wartość funkcji przeżycia:
     \[
-        \hat{S}_c(10) = \frac{1}{S}\sum_{s=1}^{S} \exp\!\left[-\!\left(\frac{10}{\lambda_c^{(s)}}\right)^{\!k^{(s)}}\right], \quad \lambda_c^{(s)} = \frac{\exp\!\left(\beta_0^{(s)} + \alpha_c^{(s)}\right)}{\Gamma\!\left(1+\frac{1}{k^{(s)}}\right)}
+        \hat{S}_c(10) = \frac{1}{S}\sum_{s=1}^{S} \exp\!\left[-\!\left(\frac{10}{\lambda_c^{(s)}}\right)^{\!k^{(s)}}\right], \quad \lambda_c^{(s)} = \frac{\exp\!\left(\beta_0^{(s)} + \alpha_c^{(s)}\right)}{\Gamma\!\left(1+\frac{1}{k}^{(s)}\right)}
     \]
     \item Estymację prawdopodobieństwa przeżycia kwiatu przez maksymalny czas podróży ($t = 22$ dni) dla każdego związku, wyznaczoną analogicznie jako $\hat{S}_c(22)$, zakładając możliwie najgorsze warunki pogodowe.
 \end{itemize}
@@ -416,19 +416,18 @@ W obu przypadkach krzywe przeżycia dla poszczególnych grup niemal całkowicie 
 % ============================================================
 % OCENA ZASADNOŚCI MODELU WEIBULLA - CLOGCLOG
 % ============================================================
-\subsection{\textcolor{red}{Ocena zasadności modelu Weibulla}}\label{subsec:cloglog}
-W celu oceny zasadności zastosowania modelu Weibulla sporządzono wykres~\ref{fig:cloglog} \textbf{CLogLog}: $\log(-\log \hat{S}(t))$ w funkcji $\log(t)$ (ang. \textit{Complementary log-log}) dla czterech grup związków. 
+\subsection{Ocena zasadności modelu Weibulla}\label{subsec:cloglog}
+W celu oceny zasadności zastosowania modelu Weibulla sporządzono wykres~\ref{fig:cloglog} \textbf{CLogLog}: $\log(-\log \hat{S}(t))$ w funkcji $\log(t)$ (ang. \textit{Complementary log-log}) dla wszystkich dwunastu związków uwzględnionych w analizie głównej.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{plots/cloglog.pdf}
-    \caption{Wykres CLogLog dla czterech grup związków.}
+    \includegraphics[width=0.9\textwidth]{plots/cloglog.pdf}
+    \caption{Wykres CLogLog dla dwunastu związków chemicznych.}
     \label{fig:cloglog}
 \end{figure}
 
-\par W przypadku grup uwzględnionych w analizie głównej (kontrolna, umiarkowana, obiecująca) obserwowane krzywe wykazują liniowość oraz przebiegają w przybliżeniu równolegle, co uzasadnia wykorzystanie modelu Weibulla z proporcjonalnymi hazardami i wspólnym parametrem kształtu $k$. 
-\par Grupa związków szkodliwych odbiega od tego założenia, cechując się wyraźnymi odchyleniami od liniowości, spowodowanymi silną koncentracją występowania zdarzeń w pierwszych dniach eksperymentu. Z tego względu obserwacje należące do omawianej grupy zostały wyłączone z analizy głównej. 
-\par W wyniku dopasowania modelu Weibulla metodą największej wiarygodności do danych pilotażowych (z wyłączeniem związków szkodliwych) uzyskano estymację parametru kształtu $\hat{k} = 4{,}36$. Wynik ten potwierdza tendencję wzrostową hazardu wraz z upływem czasu ($k > 1$) zgodną z biologicznym procesem pogarszania się kondycji kwiatów w czasie. Uzyskaną wartość wykorzystano do kalibracji rozkładu a priori parametru kształtu w modelu bayesowskim. W tym samym modelu oceniono również wpływ zmiennej \texttt{baseline\_diam} na czas przeżycia. Współczynnik w modelu był nieistotny statystycznie ($p = 0{,}574$), co stanowiło podstawę do wykluczenia tej zmiennej z modelu głównego.
+\par Obserwowane krzywe wykazują liniowość oraz przebiegają w przybliżeniu równolegle, co uzasadnia wykorzystanie modelu Weibulla z proporcjonalnymi hazardami i wspólnym parametrem kształtu $k$.
+\par W wyniku dopasowania modelu Weibulla metodą największej wiarygodności do danych pilotażowych uzyskano estymację parametru kształtu $\hat{k} = 4{,}36$. Wynik ten potwierdza tendencję wzrostową hazardu wraz z upływem czasu ($k > 1$), zgodną z biologicznym procesem pogarszania się kondycji kwiatów w czasie. Uzyskaną wartość wykorzystano do kalibracji rozkładu a priori parametru kształtu w modelu bayesowskim. W tym samym modelu oceniono również wpływ zmiennej \texttt{baseline\_diam} na czas przeżycia. Współczynnik w modelu był nieistotny statystycznie ($p = 0{,}574$), co stanowiło podstawę do wykluczenia tej zmiennej z modelu głównego.
 
 % ============================================================
 \section{Specyfikacja modelu statystycznego}\label{sec:model_structure}
@@ -600,7 +599,7 @@ Wyniki obu modeli zostaną porównane pod względem median a posteriori efektów
 \section{Estymacja modelu i wnioskowanie}
 Model Weibulla opisany w Sekcji~\ref{sec:model_structure} zostanie dopasowany z wykorzystaniem pakietu \texttt{brms}~\cite{burkner2017brms} w środowisku R. Pakiet ten umożliwia estymację bayesowską modeli regresyjnych poprzez próbkowanie z rozkładu a posteriori z wykorzystaniem algorytmu HMC (ang. \textit{Hamiltonian Monte Carlo}) zaimplementowanego w języku Stan. Mediana czasu przeżycia dla związku $c$ wyznaczona zostanie jako mediana wartości $\lambda_c^{(s)} \cdot (\ln 2)^{1/k^{(s)}}$ po wszystkich próbkach a posteriori, gdzie $\lambda_c^{(s)} = \exp(\beta_0^{(s)} + \alpha_c^{(s)})\,/\,\Gamma(1+1/k^{(s)})$. Prawdopodobieństwa przeżycia dla drugorzędowych punktów końcowych obliczone zostaną jako uśrednione po próbkach wartości funkcji przeżycia Weibulla:
 \[
-    \hat{S}_c(t) = \frac{1}{S}\sum_{s=1}^{S} \exp\!\left[-\!\left(\frac{t}{\lambda_c^{(s)}}\right)^{\!k^{(s)}}\right], \quad t \in \{10,\, 22\}, \quad \lambda_c^{(s)} = \frac{\exp\!\left(\beta_0^{(s)} + \alpha_c^{(s)}\right)}{\Gamma\!\left(1+1/k^{(s)}\right)}
+    \hat{S}_c(t) = \frac{1}{S}\sum_{s=1}^{S} \exp\!\left[-\!\left(\frac{t}{\lambda_c^{(s)}}\right)^{\!k^{(s)}}\right], \quad t \in \{10,\, 22\}, \quad \lambda_c^{(s)} = \frac{\exp\!\left(\beta_0^{(s)} + \alpha_c^{(s)}\right)}{\Gamma\!\left(1+\frac{1}{k}^{(s)}\right)}
 \]
 
 \subsection{Ustawienia MCMC}
