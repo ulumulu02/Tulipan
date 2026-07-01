@@ -1,11 +1,12 @@
 
 {
-    "workbench.colorTheme": "Ev Fairy",
-      "r.rpath.linux": "/usr/bin/R",
-     "r.lsp.enabled": true,
-    "r.lsp.path": "/usr/bin/R",
-    "r.rterm.linux": "/usr/bin/R",
-      "r.sessionWatcher": true,
-  "r.bracketedPaste": true,
-  "r.lsp.diagnostics": false
+    "workbench.colorTheme": "Pink Panda Theme",
+    "r.rpath.windows": "C:\\Program Files\\R\\R-4.6.0\\bin\\R.exe",
+    "r.rterm.windows": "C:\\Program Files\\R\\R-4.6.0\\bin\\R.exe",
+    "r.lsp.enabled": true,
+    "r.sessionWatcher": true,
+    "r.bracketedPaste": true,
+    "r.lsp.diagnostics": false,
+    "r.alwaysUseActiveTerminal": false,
+    "r.plot.useHttpgd": true
 }

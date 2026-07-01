@@ -14,7 +14,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{enumitem}
-\usepackage{parskip}
+\usepackage[skip=6pt]{parskip}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[polish]{babel}
@@ -59,14 +59,14 @@
     \vspace*{2cm}
     {\LARGE \textbf{Plan Analizy Statystycznej} \par}
     \vspace{0.5cm}
-    {\large Bayesowska analiza przeżycia róż: ocena skuteczności związków chemicznych w fazie pilotażowej i badaniu głównym\par}
+    {\large Bayesowska analiza przeżycia: ocena skuteczności związków chemicznych w fazie pilotażowej i badaniu głównym\par}
     \vspace{2cm}
     \centering
     \includegraphics[width=0.3\textwidth]{graphics/UMB-logo.png}\par\vspace{2cm}
 
     \begin{tabular}{ll}
         \toprule
-        \textbf{Wersja dokumentu}  & 1.0 \\
+        \textbf{Wersja dokumentu}  & 1.1 \\
         \textbf{Data}              & \today \\
         \textbf{Autorzy}         & Julia Czyż, Urszula Skuńczyk, Paulina Włodarczyk\\
         \textbf{Afiliacja}         & Uniwersytet Medyczny w Białymstoku \\
@@ -79,7 +79,24 @@
     \vfill
 \end{titlepage}
 
+% --- Rejestr zmian ---
+\newpage
+\section*{Rejestr zmian}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{13cm}}
+\toprule
+\textbf{Wersja} & \textbf{Opis zmian} \\
+\midrule
+1.0 & Wersja pierwotna dokumentu. \\
+\addlinespace
+1.1 & Aktualizacje dotyczące matematycznych definicji związanych z modelem: zmiana predyktora liniowego z $\log \lambda_i$ na $\log \mathbb{E}[T_i]$; dodanie czynnika $\Gamma(1+\frac{1}{k})$ w mianowniku formuły parametru skali $\lambda_c$ we wszystkich miejscach dokumentu (sekcje 1.3 i 7). \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 % --- Spis treści ---
+\newpage
 \tableofcontents
 \newpage
 
@@ -108,17 +125,17 @@ Cele drugorzędowe obejmują:
 \subsection{Punkty końcowe i kryteria decyzyjne}\label{subsec:endpoints}
 
 \textbf{Pierwszorzędowy punkt końcowy:}
-\par Ranking związków według mediany czasu przeżycia $\exp(\beta_0 + \alpha_c) \cdot (\ln 2)^{1/k}$ wyznaczonej z rozkładu a posteriori. Związek z najwyższą medianą uznany zostanie za najlepszy.\\
+\par Ranking związków według mediany czasu przeżycia $\frac{\exp(\beta_0 + \alpha_c)}{\Gamma(1+\frac{1}{k})} \cdot (\ln 2)^{\frac{1}{k}}$ wyznaczonej z rozkładu a posteriori. Związek z najwyższą medianą uznany zostanie za najlepszy.\\
 \textbf{Drugorzędowe punkty końcowe:}
 \begin{itemize}[noitemsep]
     \item Estymację prawdopodobieństwa przeżycia kwiatu przez typowy czas podróży ($t = 10$ dni) dla każdego związku, wyznaczoną jako uśrednioną po próbkach a posteriori wartość funkcji przeżycia:
     \[
-        \hat{S}_c(10) = \frac{1}{S}\sum_{s=1}^{S} \exp\!\left[-\!\left(\frac{10}{\lambda_c^{(s)}}\right)^{\!k^{(s)}}\right], \quad \lambda_c^{(s)} = \exp\!\left(\beta_0^{(s)} + \alpha_c^{(s)}\right)
+        \hat{S}_c(10) = \frac{1}{S}\sum_{s=1}^{S} \exp\!\left[-\!\left(\frac{10}{\lambda_c^{(s)}}\right)^{\!k^{(s)}}\right], \quad \lambda_c^{(s)} = \frac{\exp\!\left(\beta_0^{(s)} + \alpha_c^{(s)}\right)}{\Gamma\!\left(1+\frac{1}{k^{(s)}}\right)}
     \]
     \item Estymację prawdopodobieństwa przeżycia kwiatu przez maksymalny czas podróży ($t = 22$ dni) dla każdego związku, wyznaczoną analogicznie jako $\hat{S}_c(22)$, zakładając możliwie najgorsze warunki pogodowe.
 \end{itemize}
 
-\subsection{Zakres PAS}
+\subsection{Zakres SAP}
 Niniejszy Plan Analizy Statystycznej obejmuje analizę eksploracyjną danych pilotażowych oraz szczegółowy opis zaplanowanej analizy głównej. Dokument został sfinalizowany przed ujawnieniem głównych danych.
 
 % ============================================================
@@ -126,13 +143,13 @@ Niniejszy Plan Analizy Statystycznej obejmuje analizę eksploracyjną danych pil
 % ============================================================
 
 \subsection{Projekt badania}\label{experiment:scheme}
-\indent Jednostki eksperymentalne podzielono na cztery równoliczne bloki, aby kontrolować wpływ warunków środowiskowych, w jakich były hodowane, uwzględniając przy tym różnorodność gatunkową kwiatów (\texttt{species}) oraz ich pochodzenie (\texttt{garden}). Zbierano rośliny możliwie jak najbardziej zbliżone do siebie pod względem stadium rozwoju, czy cech wyglądu. Każdą z piętnastu analizowanych substancji rozpuszczono oddzielnie w wodzie, otrzymując roztwory o identycznych stężeniach. Następnie, w obrębie każdego bloku, róże losowo podzielono na piętnaście równych podgrup, z których każdą przypisano do jednego roztworu, w którym kwiaty pozostawały zanurzone przez cały czas trwania eksperymentu, tj. 30 dni. Róże umieszczono w specjalnie przygotowanym na potrzeby eksperymentu laboratorium, gdzie zapewniono im stabilne warunki środowiskowe, takie jak temperatura i wilgotność powietrza, zbliżone do warunków występujących pod pokładem statku. Celem tego zabiegu było wyeliminowanie potencjalnych różnic w czasie przeżycia kwiatów, spowodowanych niestabilnymi parametrami otoczenia oraz symulacja warunków, w jakich docelowo przywożony ma być czarny tulipan. Kwiatów raz umieszczonych w płynie, nie wyjmowano aż do momentu wystąpienia zdarzenia, będącego podmiotem tej analizy -- obumarcia rośliny. Każdego dnia trwania eksperymentu w równych odstępach czasowych, ogrodnicy dokonywali oceny kwiatów, jednoznacznie stwierdzając czy dany okaz nadal jest wizualnie zadowalający. Szczegóły na temat rodzaju roztworu, w którym zanurzone były poszczególne kwiaty nie zostały im ujawnione. Opisany schemat odnosi się do badania pilotażowego, w którym uwzględniono wszystkie piętnaście substancji. W badaniu głównym, na podstawie wyników analizy eksploracyjnej danych pilotażowych, związki 2, 3 oraz 10 zostały wykluczone -- szczegółowe uzasadnienie przedstawiono w Sekcji~\ref{subsec:cloglog}.
+\indent Jednostki eksperymentalne podzielono na cztery równoliczne bloki, aby kontrolować wpływ warunków środowiskowych, w jakich były hodowane, uwzględniając przy tym różnorodność gatunkową kwiatów (\texttt{species}) oraz ich pochodzenie (\texttt{garden}). Zbierano rośliny możliwie jak najbardziej zbliżone do siebie pod względem stadium rozwoju, czy cech wyglądu. Każdą z dwunastu analizowanych substancji rozpuszczono oddzielnie w wodzie, otrzymując roztwory o identycznych stężeniach. Następnie, w obrębie każdego bloku, róże losowo podzielono na dwanaście równych podgrup, z których każdą przypisano do jednego roztworu, w którym kwiaty pozostawały zanurzone przez cały czas trwania eksperymentu, tj. 30 dni. Róże umieszczono w specjalnie przygotowanym na potrzeby eksperymentu laboratorium, gdzie zapewniono im stabilne warunki środowiskowe, takie jak temperatura i wilgotność powietrza, zbliżone do warunków występujących pod pokładem statku. Celem tego zabiegu było wyeliminowanie potencjalnych różnic w czasie przeżycia kwiatów, spowodowanych niestabilnymi parametrami otoczenia oraz symulacja warunków, w jakich docelowo transportowany ma być czarny tulipan. Kwiatów raz umieszczonych w płynie, nie wyjmowano aż do momentu wystąpienia zdarzenia, będącego podmiotem tej analizy -- obumarcia rośliny. Każdego dnia trwania eksperymentu w równych odstępach czasowych, ogrodnicy dokonywali oceny kwiatów, jednoznacznie stwierdzając czy dany okaz nadal jest wizualnie zadowalający. Szczegóły na temat rodzaju roztworu, w którym zanurzone były poszczególne kwiaty nie zostały im ujawnione. Opisany schemat odnosi się zarówno do badania pilotażowego jak i głównego.
 
 \subsection{Jednostki eksperymentalne}
 Jednostką eksperymentalną jest pojedynczy okaz róży (\texttt{id}), pochodzącej z jednego z dwóch ogrodów (\texttt{garden}) i należący do jednego z dwóch dostępnych gatunków (\texttt{species}).
 
 \subsection{Grupy interwencji}
-W badaniu pilotażowym uwzględniono piętnaście substancji (związki 1--15), których pełną listę przedstawiono w Tabeli~\ref{tab:compounds}. Na podstawie analizy eksploracyjnej danych pilotażowych podjęto decyzję o wykluczeniu związków 2, 3 oraz 10 z badania głównego (uzasadnienie w Sekcji~\ref{subsec:cloglog}). W badaniu głównym analizie poddanych zostanie zatem dwanaście substancji: związek 1 jako grupa kontrolna oraz związki 4--9 i 11--15 jako grupy interwencji.
+W badaniu uwzględniono dwanaście substancji, z czego jedna stanowiła grupę kontrolną (związek 1 -- woda destylowana). Nazwy oraz identyfikatory związków przedstawiono w Tabeli~\ref{tab:compounds}. 
 
 \begin{longtable}{cl}
 \caption{Identyfikatory i nazwy związków chemicznych}
@@ -148,15 +165,12 @@ W badaniu pilotażowym uwzględniono piętnaście substancji (związki 1--15), k
 \bottomrule
 \endfoot
 1  & Distilled Water           \\
-2  & Apathic Acid              \\
-3  & Beerse Brew               \\
 4  & Concentrate of Caducues   \\
 5  & Distillate of Discovery   \\
 6  & Essence of Epiphaneia     \\
 7  & Four in December          \\
 8  & Granules of Geheref       \\
 9  & Kar-Hamel Mooh            \\
-10 & Lucifer's Liquid          \\
 11 & Noospherol                \\
 12 & Oil of John's Son         \\
 13 & Power of Perlimpinpin     \\
@@ -171,11 +185,12 @@ Wskaźnik zdarzenia \texttt{can.be.presented} dostarcza informacji o walorach es
 
 \subsection{Liczebność próby}
 W badaniu głównym zaplanowano wykorzystanie łącznie około dwóch tysięcy jednostek eksperymentalnych, co wynika z maksymalnej liczby kwiatów dostępnych na potrzeby eksperymentu, zadeklarowanej przez ogrodników. Przy przyjętym blokowym układzie eksperymentu obejmującym 12×2×2=48 komórek eksperymentalnych założono równomierne rozłożenie próby, co odpowiada około 40 kwiatom na każdą komórkę.
+
 \par Przeprowadzone badanie pilotażowe obejmowało 15 kwiatów na każdą komórkę. Zwiększenie liczebności do 40 ($\sim 2{,}7$-krotnie) umożliwi uzyskanie przedziałów wiarygodności dla efektów związków $\alpha_c$ węższych o czynnik $\sqrt{2{,}7} \approx 1{,}6$ w porównaniu z danymi pilotażowymi.
 % ============================================================
 \section{Opis danych}
 % ============================================================
-W ramach przygotowania niniejszego dokumentu przeprowadzono analizę eksploracyjną danych z badania pilotażowego, które stanowiły odpowiednik docelowego zbioru danych pod względem struktury zmiennych i schematu eksperymentu, z tą różnicą, że obejmował wszystkie piętnaście związków, podczas gdy badanie główne uwzględnia dwanaście. Dane te wykorzystano w celu weryfikacji poprawności zaplanowanej struktury i definicji zmiennych, identyfikacji rozkładów a priori wykorzystywanych w modelach bayesowskich oraz podjęcia decyzji o wykluczeniu związków szkodliwych z badania głównego. Służyły one również do sprawdzenia założeń dotyczących planowanych metod analizy.
+W ramach przygotowania niniejszego dokumentu przeprowadzono analizę eksploracyjną danych z badania pilotażowego, które stanowiły odpowiednik docelowego zbioru danych pod względem struktury zmiennych i schematu eksperymentu. Dane te wykorzystano w celu weryfikacji poprawności zaplanowanej struktury i definicji zmiennych, identyfikacji oraz kalibracji rozkładów a priori wykorzystywanych w modelach bayesowskich. Służyły one również do sprawdzenia założeń dotyczących planowanych metod analizy.
 \subsection{Struktura zbioru danych (surowych)}
 W Tabeli \ref{tab:raw_data_variables} przedstawiono strukturę surowych danych. Ze względu na przyjęty schemat badania (codzienne pomiary) dane miały charakter longitudinalny, gdzie dla każdej obserwacji liczba wierszy odpowiadała liczbie dni przeżycia kwiatu w roztworze, włączając w to dzień 0, czyli dzień rozpoczęcia eksperymentu. 
 \begin{longtable}{llp{7cm}}
@@ -194,7 +209,7 @@ W Tabeli \ref{tab:raw_data_variables} przedstawiono strukturę surowych danych. 
 \texttt{id}                & identyfikator & Unikalny identyfikator róży \\
 \texttt{garden}            & kategoryczna & Ogród, z którego pochodzi róża \newline (1~-- Ogród południowy, 2~-- Ogród północny)\\
 \texttt{species}           & kategoryczna & Gatunek róży \newline (1~-- \textit{T.~floribunda}, 2~-- \textit{T.~hybrid})\\
-\texttt{compound}          & kategoryczna & Przypisany roztwór (1--15) \\
+\texttt{compound}          & kategoryczna & Przypisany roztwór (1, 4--9, 11--15) \\
 \texttt{time}              & ciągła & Czas przeżycia w dniach (0--30) \\
 \texttt{diam}              & ciągła & Średnica kwiatostanu w momencie pomiaru, w centymetrach\\
 \texttt{can.be.presented}  & binarna & Wskaźnik wystąpienia zdarzenia\\
@@ -205,36 +220,12 @@ W Tabeli \ref{tab:raw_data_variables} przedstawiono strukturę surowych danych. 
 Czas przeżycia (\texttt{time}) traktowano jako zmienną \textbf{ciągłą} w całej analizie. Pomimo dokonywania codziennych pomiarów w równych odstępach czasu, co skutkowało uzyskaniem wartości całkowitoliczbowych omawianej zmiennej, badany proces (wystąpienie zdarzenia w badanym czasie) ma naturę ciągłą. Z tego względu przyjęcie ciągłych rozkładów czasu przeżycia jednostek eksperymentalnych jest uzasadnione.
 
 \subsection{Cenzurowanie obserwacji}
-Cenzurowanie obserwacji w badaniu miało charakter administracyjny, wynikający z założonego czasu trwania badania. Kwiaty, które ostatniego (30 dnia) trwania eksperymentu nadal zachowały dostateczną świeżość i walory estetyczne, traktowano jako obserwacje prawostronnie cenzurowane (wartość zmiennej \texttt{can.be.presented} = \texttt{TRUE}, przy zmiennej \texttt{time} = 30). Mechanizm cenzurowania był niezależny od czasu przeżycia, ponieważ decyzja o zakończeniu badania podjęta była przed jego rozpoczęciem i nie zależała od stanu kwiatów. W badaniu pilotażowym zaobserwowany odsetek jednostek cenzurowanych wyniósł 0\% (we wszystkich 900 rekordach zdarzenie wystąpiło w trzydziestodniowym okresie badania). 
+Cenzurowanie obserwacji w badaniu miało charakter administracyjny, wynikający z założonego czasu trwania badania. Kwiaty, które ostatniego (30 dnia) trwania eksperymentu nadal zachowały dostateczną świeżość i walory estetyczne, traktowano jako obserwacje prawostronnie cenzurowane (wartość zmiennej \texttt{can.be.presented} = \texttt{TRUE}, przy zmiennej \texttt{time} = 30). Mechanizm cenzurowania był niezależny od czasu przeżycia, ponieważ decyzja o zakończeniu badania podjęta była przed jego rozpoczęciem i nie zależała od stanu kwiatów. W badaniu pilotażowym zaobserwowany odsetek jednostek cenzurowanych wyniósł 0\% (we wszystkich 720 rekordach zdarzenie wystąpiło w trzydziestodniowym okresie badania). 
 
 \subsection{Przetwarzanie danych pilotażowych}\label{sec:pilot_data_processing}
-Surowe dane pilotażowe miały strukturę longitudinalną, uwzględniającą codzienne pomiary zmiennych, aż do momentu wystąpienia zdarzenia, bądź zakończenia eksperymentu. W celu dostosowania ich do przyjętej metodologii przekształcono je do postaci, w której na jedną jednostkę eksperymentalną (różę) przypada jedna obserwacja. Zachowano wyłącznie ostatni zarejestrowany pomiar, który zawierał informację o czasie przeżycia (\texttt{time}) oraz statusie jednostki na końcu obserwacji (\texttt{can.be.presented}). Pomiary pośrednie zostały wykluczone z dalszej analizy. Dodatkowo dla każdej jednostki eksperymentalnej utworzono nową zmienną \texttt{baseline\_diam}, która odpowiadała średnicy kwiatostanu w dniu rozpoczęcia eksperymentu. Na potrzeby eksploracyjnej analizy danych wprowadzono pomocniczy podział badanych roztworów na cztery grupy (zmienna -- \texttt{category}): 
-\begin{itemize}
-    \item Punkt odniesienia -- woda destylowana (\texttt{category} = 0)
-    \item Związki szkodliwe (\texttt{category} = 1)
-    \item Związki umiarkowane (\texttt{category} = 2)
-    \item Związki korzystne (\texttt{category} = 3)
-\end{itemize}
-Podziału roztworów na grupy dokonano na podstawie median czasu przeżycia wyznaczonych estymatorem Kaplana-Meiera, który ze względu na 0\% obserwacji cenzurowanych w danych pilotażowych dokładnie pokrywał się z medianami danych surowych. W danych pilotażowych zaobserwowano wystąpienie naturalnych skupień: związki szkodliwe, charakteryzujące się medianą wynoszącą od 1 do 3 dni, związki umiarkowane, których mediana należała do przedziału 13-15 dni oraz związki korzystne z medianą od 17 do 21 dni. Granice między omawianymi grupami wyznaczono na podstawie przerw w rozkładzie median, a nie w oparciu o z góry ustalone progi. Podział roztworów przedstawiono w Tabeli~\ref{tab:compound_category}.
-Utworzone grupy oraz odpowiadająca im zmienna \texttt{category} służyły wyłącznie celom wizualizacyjnym, eksploracyjnym i \textbf{nie stanowiły elementu specyfikacji modelu statystycznego}. W modelu zmienna \texttt{compound} traktowana jest jako zmienna kategoryczna.
+Surowe dane pilotażowe miały strukturę longitudinalną, uwzględniającą codzienne pomiary zmiennych, aż do momentu wystąpienia zdarzenia, bądź zakończenia eksperymentu. W celu dostosowania ich do przyjętej metodologii przekształcono je do postaci, w której na jedną jednostkę eksperymentalną (różę) przypada jedna obserwacja. Zachowano wyłącznie ostatni zarejestrowany pomiar, który zawierał informację o czasie przeżycia (\texttt{time}) oraz statusie jednostki na końcu obserwacji (\texttt{can.be.presented}). Pomiary pośrednie zostały wykluczone z dalszej analizy. Dodatkowo dla każdej jednostki eksperymentalnej utworzono nową zmienną \texttt{baseline\_diam}, która odpowiadała średnicy kwiatostanu w dniu rozpoczęcia eksperymentu. W modelu zmienna \texttt{compound} traktowana jest jako zmienna kategoryczna.
 
-\par Zmienną binarną \texttt{can.be.presented} poddano kodowaniu zero-jedynkowemu, ze względu na konwencję formatu danych wykorzystywanych w implementacjach algorytmów statystycznych. Oryginalnym wartościom logicznym przypisano odpowiednio: \texttt{FALSE} $\rightarrow$ 1 (wystąpienie zdarzenia) oraz \texttt{TRUE} $\rightarrow$ 0 (brak zdarzenia). Obserwacje, dla których czas przeżycia wyniósł zero (zdarzenie nastąpiło w dniu rozpoczęcia eksperymentu) zastąpiono wartością 0.5 dnia, aby umożliwić dopasowanie modelu Weibulla (warunek konieczny $t > 0$).
-
-\begin{table}[htbp]
-    \centering
-    \caption{Podział związków na grupy (EDA).}
-    \label{tab:compound_category}
-    \begin{tabular}{lll}
-        \toprule
-        \textbf{Grupa} & \textbf{Związki} & \textbf{Mediany} \\ 
-        \midrule
-        Kontrolna (0) & 1 & 9 dni \\ \addlinespace
-        Szkodliwe (1) & 2, 3, 10           & 1, 3, 3 dni --- znacznie poniżej kontroli (9) \\ \addlinespace
-        Neutralne (2) & 7, 9, 14           & 13, 15, 14,5 dnia \\ \addlinespace
-        Korzystne (3) & 4--6, 8, 11--13, 15 & 17--21 dni \\ 
-        \bottomrule
-    \end{tabular}
-\end{table}
+\par Zmienną binarną \texttt{can.be.presented} poddano kodowaniu zero-jedynkowemu, ze względu na konwencję formatu danych wykorzystywanych w implementacjach algorytmów statystycznych. Oryginalnym wartościom logicznym przypisano odpowiednio: \texttt{FALSE} $\rightarrow$ 1 (wystąpienie zdarzenia) oraz \texttt{TRUE} $\rightarrow$ 0 (brak zdarzenia). Obserwacje, dla których czas przeżycia wyniósł zero (zdarzenie nastąpiło w dniu rozpoczęcia eksperymentu) zastąpiono wartością 0.5 dnia, aby umożliwić dopasowanie modelu Weibulla (warunek konieczny $t > 0$, wymóg implementacji pakietu \texttt{brms}).
 
 \subsection{Charakterystyka danych pilotażowych}
 Statystyki opisowe zmiennych przedstawiono w Tabeli~\ref{tab:pilot_summary}. Natomiast w Tabeli~\ref{tab:compound_summary} zawarto informacje dotyczące: liczebności, mediany, rozstępu międzykwartylowego (IQR), wartości minimalnej i maksymalnej dla każdego z badanych roztworów.
@@ -256,35 +247,35 @@ Statystyki opisowe zmiennych przedstawiono w Tabeli~\ref{tab:pilot_summary}. Nat
 \endfoot
 \bottomrule
 \endlastfoot
-\multicolumn{2}{l}{\textit{Liczba jednostek eksperymentalnych}} & 900 \\
+\multicolumn{2}{l}{\textit{Liczba jednostek eksperymentalnych}} & 720 \\
 \addlinespace
 Ogród \newline \texttt{garden} 
 & Ogród południowy (1) 
-& 450 (50\%) \\
+& 360 (50\%) \\
 & Ogród północny (2)   
-& 450 (50\%) \\
+& 360 (50\%) \\
 \addlinespace
 Gatunek \newline \texttt{species} 
 & \textit{T.~floribunda} (1) 
-& 450 (50\%) \\
+& 360 (50\%) \\
 & \textit{T.~hybrid} (2)     
-& 450 (50\%) \\
+& 360 (50\%) \\
 \addlinespace
 Roztwór \newline \texttt{compound} 
-& Każdy z 15 roztworów 
-& 60 (6,7\%) \\
+& Każdy z 12 roztworów 
+& 60 (8{,}33\%) \\
 \addlinespace
 Cenzurowanie \newline \texttt{can.be.presented} 
 & Zdarzenia (1)
-& 900 (100\%) \\
+& 720 (100\%) \\
 & Obserwacje cenzurowane (0)
 & 0 (0\%) \\
 \addlinespace
 Czas przeżycia (dni) \newline \texttt{time} 
 & Mediana (IQR) 
-& 16 (9--20) \\
+& 18 (14--21) \\
 & Min--Max      
-& 1--30 \\
+& 4--30 \\
 \addlinespace
 Średnica kwiatostanu (dzień 0) (cm) \newline \texttt{baseline\_diam} 
 & Mediana (IQR) 
@@ -303,7 +294,6 @@ Analizę danych pilotażowych wykonano w celu:
     \item Oceny jakości pozyskanych danych.
     \item Sprawdzenia zgodności danych z protokołem zaplanowanego eksperymentu.
     \item Zbadania charakterystyki rozkładu czasu przeżycia dla każdego związku.
-    \item Identyfikacji związków o działaniu szkodliwym i wykluczenia ich z analizy głównej.
     \item Kalibracji rozkładów a priori dla bayesowskiej analizy głównej.
     \item Oceny zasadności użycia planowanego parametrycznego modelu przeżycia.
 \end{enumerate}
@@ -315,7 +305,6 @@ W ramach eksploracyjnej analizy danych pilotażowych przeprowadzono następując
 \begin{itemize}[noitemsep]
     \item Statystyki opisowe czasu przeżycia według związku: średnia, mediana, odchylenie standardowe, IQR, minimum, maksimum (Sekcja~\ref{subsec:summary_compound}). 
     \item Rozkład czasu przeżycia dla wszystkich obserwacji (Sekcja~\ref{subsec:survtime_distribution}).
-    \item Rozkłady czasu przeżycia w grupach ze względu na potencjalne działanie związków (Szkodliwe / Umiarkowane / Obiecujące) (Sekcja~\ref{subsec:survtime_distribution_groups}).
     \item Wykresy pudełkowe czasu przeżycia według związku (Sekcja~\ref{subsec:compounds_distributon}).
     \item Krzywe przeżycia Kaplana-Meiera według zastosowanego związku, z referencyjną krzywą przeżycia dla grupy kontrolnej (Sekcja~\ref{subsec:km_compounds}).
     \item Krzywe przeżycia Kaplana-Meiera według ogrodu oraz gatunku (Sekcja~\ref{subsec:km_garden_species}).
@@ -326,41 +315,38 @@ W ramach eksploracyjnej analizy danych pilotażowych przeprowadzono następując
 % STATYSTYKI OPISOWE
 % ============================================================
 \subsection{Statystyki opisowe czasu przeżycia według związku}\label{subsec:summary_compound}
-\begin{table}[h!]
+\begin{table}[ht]
 \centering
-\caption{Czas przeżycia według roztworu -- dane pilotażowe}
+\caption{Statystyki opisowe czasu przeżycia według badanego związku.}
 \label{tab:compound_summary}
-\begin{tabular}{ccrrrr}
+
+\begin{tabular}{ccccccc}
 \toprule
-\textbf{Roztwór} & \textbf{Grupa} & \textbf{n} & \textbf{Mediana} & \textbf{IQR} & \textbf{Min--Max} \\
+\textbf{Związek} & \textbf{n} & \textbf{Średnia} & \textbf{Mediana} &
+\textbf{SD} & \textbf{IQR} & \textbf{Min--Max} \\
 \midrule
-1  & 0 & 60 & 9,0  & 8,0--10,0  & 6--12  \\
-\addlinespace
-2  & 1 & 60 & 3,0  & 2,0--4,0   & 1--7   \\
-3  & 1 & 60 & 3,0  & 2,0--4,0   & 1--7   \\
-10 & 1 & 60 & 1,0  & 1,0--2,0   & 0--4   \\
-\addlinespace
-7  & 2 & 60 & 13,0 & 9,0--18,2  & 4--30  \\
-9  & 2 & 60 & 15,0 & 14,0--16,2 & 12--20 \\
-14 & 2 & 60 & 14,5 & 12,0--19,0 & 7--27  \\
-\addlinespace
-4  & 3 & 60 & 17,5 & 15,0--21,0 & 11--30 \\
-5  & 3 & 60 & 20,0 & 17,8--22,2 & 14--28 \\
-6  & 3 & 60 & 17,0 & 13,0--22,0 & 4--30  \\
-8  & 3 & 60 & 20,0 & 19,0--22,0 & 13--29 \\
-11 & 3 & 60 & 21,0 & 19,0--23,2 & 15--29 \\
-12 & 3 & 60 & 19,5 & 17,0--22,0 & 13--29 \\
-13 & 3 & 60 & 20,0 & 18,0--22,0 & 14--30 \\
-15 & 3 & 60 & 17,0 & 14,0--20,0 & 9--29  \\
+1  & 60 &  9,05 &  9,0 & 1,31 & 8--10          & 6--12 \\
+4  & 60 & 18,12 & 17,5 & 4,04 & 15--21         & 11--30 \\
+5  & 60 & 20,27 & 20,0 & 3,69 & 17,75--22,25   & 14--28 \\
+6  & 60 & 17,95 & 17,0 & 7,61 & 13--22         & 4--30 \\
+7  & 60 & 14,43 & 13,0 & 7,14 & 9--18,25       & 4--30 \\
+8  & 60 & 20,47 & 20,0 & 3,28 & 19--22         & 13--29 \\
+9  & 60 & 15,47 & 15,0 & 1,77 & 14--16,25      & 12--20 \\
+11 & 60 & 21,52 & 21,0 & 2,93 & 19--23,25      & 15--29 \\
+12 & 60 & 20,00 & 19,5 & 3,75 & 17--22         & 13--29 \\
+13 & 60 & 20,20 & 20,0 & 3,02 & 18--22         & 14--30 \\
+14 & 60 & 15,80 & 14,5 & 5,53 & 12--19         & 7--27 \\
+15 & 60 & 17,32 & 17,0 & 4,53 & 14--20         & 9--29 \\
 \bottomrule
 \end{tabular}
+
 \end{table}
 
 % ============================================================
 % ROZKŁAD CZASU PRZEŻYCIA GLOBALNY
 % ============================================================
 \subsection{Rozkład czasu przeżycia kwiatów}\label{subsec:survtime_distribution}
-W celu wstępnej oceny rozkładu zmiennej \texttt{time} dla danych pilotażowych sporządzono histogram czasu przeżycia róż. 
+W celu wstępnej oceny rozkładu zmiennej \texttt{time} dla danych pilotażowych sporządzono histogram czasu przeżycia wszystkich róż. 
 
 \begin{figure}[h!]
     \centering
@@ -368,30 +354,14 @@ W celu wstępnej oceny rozkładu zmiennej \texttt{time} dla danych pilotażowych
     \caption{Rozkład zmiennej \texttt{time} (dane pilotażowe).}
     \label{fig:surv_time_hist}
 \end{figure}
-Na Rycinie \ref{fig:surv_time_hist} przedstawiono rozkład zmiennej \texttt{time} dla danych pilotażowych. Żółtą linią ciągłą zaznaczono globalną medianę, która wynosiła 16 dni. Rozkład czasu przeżycia wykazuje wyraźną dwumodalność. Pierwszy szczyt występowania zdarzeń przypada na dni 1-3, co sugeruje potencjalnie wysoką toksyczność niektórych substancji (grupa 1 (\texttt{category})), a co za tym idzie wczesne obumieranie kwiatów. Główna masa rozkładu koncentruje się natomiast w przedziale 13-21 dni i odzwierciedla przeżycie róż w grupach umiarkowanej (2) i korzystnej (3). 
-\par W celu weryfikacji źródła dwumodalności w dalszej części przedstawiono rozkłady czasu przeżycia osobno dla każdej z czterech grup. Wartość globalnej mediany (16 dni) -- o 7 dni wyższa niż w grupie kontrolnej (9 dni) sugeruje wysoką trwałość kwiatów. Maskuje jednak informację o około 18\% róż, których czas przeżycia nie przekroczył 4 dni. Fakt ten determinuje konieczność przeprowadzenia analiz z uwzględnieniem podziału na zastosowane związki.
-
-% ============================================================
-% ROZKŁADY CZASU PRZEŻYCIA W GRUPACH 
-% ============================================================
-\subsection{Rozkłady czasu przeżycia dla grup związków}\label{subsec:survtime_distribution_groups}
-\par W celu dokładniejszej oceny rozkładu czasu przeżycia w poszczególnych grupach sporządzono histogramy zmiennej \texttt{time} z podziałem na cztery grupy opisane w sekcji~\ref{sec:pilot_data_processing}. Zestawienie to umożliwia identyfikację różnic pomiędzy grupami oraz wizualną ocenę efektów zastosowania związków.
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.85\textwidth]{plots/group_surv_time_hist.pdf}
-    \caption{Rozkłady zmiennej \texttt{time} dla czterech grup związków -- \texttt{category}.}
-    \label{fig:surv_time_hist_comp}
-\end{figure}
-
-\par Rozkłady czasu przeżycia dla poszczególnych grup przedstawiono na Rycinie~\ref{fig:surv_time_hist_comp}. Wizualizacja potwierdza istotne zróżnicowanie pomiędzy grupami oraz pozwala jednoznacznie wskazać silny wpływ zarówno związków szkodliwych, jak i związków obiecujących na obserwowaną dwumodalność rozkładu zmiennej \texttt{time}. W grupie związków szkodliwych dominują krótkie czasy przeżycia, co wskazuje na wysoką toksyczność i szybkie obumieranie kwiatów. Z kolei w grupie związków obiecujących obserwuje się przesunięcie rozkładu w stronę dłuższych czasów przeżycia, co świadczy o pozytywnym wpływie zastosowanych substancji na trwałość róż.
+Rycinia~\ref{fig:surv_time_hist} przedstawia rozkład zmiennej \texttt{time} dla danych pilotażowych ($n = 720$). Czerwoną linią ciągłą zaznaczono globalną medianę, która wynosiła 18 dni (IQR: 14--21). Rozkład jest jednomodalny, ze szczytem w przedziale 19--20 dni. Główna masa obserwacji skupia się między 13 a 22 dniem, natomiast lewy ogon sięga minimum wynoszącego 4 dni. Zróżnicowanie czasu przeżycia między poszczególnymi związkami omówiono w kolejnych sekcjach.
 
 % ============================================================
 % ROZKŁAD PRZEŻYCIA WEDŁUG ZASTOSOWANEGO ZWIĄZKU
 % ============================================================
 \subsection{Rozkład przeżycia kwiatów według zastosowanego związku}\label{subsec:compounds_distributon}
 
-\par W celu oceny zróżnicowania czasu przeżycia róż w zależności od zastosowanego związku sporządzono wykres typu ramka–wąsy, przedstawiony na Rycinie~\ref{fig:compounds_boxplot}. Wizualizacja ta umożliwia porównanie median, rozstępów międzykwartylowych oraz obecności obserwacji odstających pomiędzy poszczególnymi substancjami, co pozwala na wstępną ocenę ich wpływu na zmienną \texttt{time}.
+\par W celu oceny zróżnicowania czasu przeżycia róż w zależności od zastosowanego związku sporządzono wykres typu ramka-wąsy (Rycinia~\ref{fig:compounds_boxplot}). Wizualizacja ta umożliwia porównanie median, rozstępów międzykwartylowych oraz obecności obserwacji odstających pomiędzy poszczególnymi związkami, co pozwala na wstępną ocenę ich wpływu na zmienną \texttt{time}.
 
 % 2. boxplot czasu przeżycia według compound (szczegółowy rozkład per substancja)
 \begin{figure}[h!]
@@ -401,22 +371,14 @@ Na Rycinie \ref{fig:surv_time_hist} przedstawiono rozkład zmiennej \texttt{time
     \label{fig:compounds_boxplot}
 \end{figure}
 
-\par Wizualne porównanie rozkładów czasu przeżycia kwiatów sugeruje niewielką zmienność dla związków należących do grupy \textcolor{TealBlue}{szkodliwej} (2, 3 i 10). Przedziały międzykwartylowe (IQR) rozkładów tych roztworów są wąskie (maksymalna długość przedziału w tej grupie wynosi zaledwie 2). W kontekście biologicznym oznacza to, że kwiaty zanurzone w tych substancjach przeżywały zaledwie kilka dni oraz ich obserwowane czasy przeżycia były do siebie bardzo zbliżone. Związki te charakteryzują się \textbf{stabilnie niekorzystnym} działaniem na wydłużenie czasu przeżycia róż. 
-
-\par Grupa \textcolor{Orchid}{umiarkowana} (7, 9 i 14) charakteryzuje się znacznie większym zróżnicowaniem wewnętrznym. Najstabilniejsze działanie wykazuje związek 9, dla którego rozstęp międzykwartylowy (IQR) wynosi zaledwie 2,2 dnia. W przeciwieństwie do niego, związki 7 i 14 cechują się znacznie większą zmiennością, IQR odpowiednio 9,2 i 7, co sugeruje mniejszą przewidywalność ich wpływu na trwałość kwiatów.
-
-\par Grupa \textcolor{YellowGreen}{obiecująca} obejmuje zarówno związki o dużej zmienności (4, 6, 15), jak i te o umiarkowanym oraz małym zróżnicowaniu wyników (5, 8, 11, 12, 13). Sugeruje to, że mimo ogólnie korzystnego działania na wydłużenie czasu przeżycia róż, skuteczność poszczególnych związków różni się pod względem stabilności działania.
-
-\par \textcolor{Salmon}{Grupa kontrolna} -- woda destylowana, stanowi jeden z najstabilniejszych związków z rozstępem międzykwartylowym wynoszącym 2, medianą dziewięciu dni oraz brakiem obserwacji odstających.
-
-\par Wartości odstające, które w znacznym stopniu odbiegają od typowych wyników w danej grupie, odnotowano dla następujących związków: 8, 9, 10 oraz 13. W przypadku toksycznego związku \textit{Lucifer's Liquid}, wystąpienie obserwacji wykraczającej poza zakres górnego wąsa sugerować może okaz cechujący się wyższą tolerancją na szkodliwy czynnik. Dla pozostałych związków, tj. 8, 9 oraz 13, wartości odstające występują głównie powyżej górnego wąsa, co wskazuje na pojedyncze obserwacje o wyraźnie dłuższym czasie przeżycia. Może to świadczyć o indywidualnych różnicach w reakcji badanych kwiatów na zastosowane roztwory. W przypadku związku 8 zaobserwowano również niższe wartości odstające, co dodatkowo podkreśla większą niejednorodność odpowiedzi oraz zróżnicowaną skuteczność działania tej substancji. Formalne porównanie funkcji przeżycia dla poszczególnych związków przedstawiono w kolejnej części.
+\par Rozkłady czasu przeżycia dla każdego z 12 badanych związków przedstawiono na Rycinie~\ref{fig:compounds_boxplot}. Obserwuje się wyraźne zróżnicowanie median między związkami -- od 9 dni dla grupy kontrolnej (woda destylowana) do 21 dni dla związku 11 (\textit{Noospherol}). Związek 1 wyróżnia się najniższą medianą oraz najwęższym rozstępem międzykwartylowym (IQR = 2 dni), co wskazuje na bardzo jednorodną odpowiedź kwiatów. Najwyższe mediany czasu przeżycia wykazują związki 5, 8, 11, 12 i 13 (19,5--21 dni). Największą zmiennością odznaczają się związki 6 i 7, dla których IQR przekracza 9 dni. Obserwacje odstające powyżej górnego wąsa zarejestrowano dla związków 8, 9 i 13, co sugeruje pojedyncze kwiaty o wyraźnie dłuższym czasie przeżycia. Dla związku 8 odnotowano także wystąpienie przypadków odstających poniżej dolnego wąsa -- kwiaty o wyraźnie krótszym czasie przeżycia.
 
 % ============================================================
 % KRZYWE PRZEŻYCIA WEDŁUG ZASTOSOWANEGO ZWIĄZKU
 % ============================================================
 \subsection{Krzywe przeżycia według zastosowanego związku}\label{subsec:km_compounds}
+W celu lepszego zrozumienia charakterystyki działania poszczególnych związków przygotowano zestawienie krzywych przeżycia Kaplana-Meiera (Rycina~\ref{fig:compounds_km}). Każdy z dwunastu paneli przedstawia krzywą oraz przedział ufności dla danego związku. Ponadto w przypadku jedenastu z nich dodano zaznaczoną kolorem szarym krzywą dla grupy kontrolnej -- wody destylowanej. 
 
-W celu dokładniejszej eksploracji działania badanych związków na trwałość róż przygotowano Rycinę~\ref{fig:compounds_km} krzywych przeżycia Kaplana-Meiera. Każdy z piętnastu paneli przedstawia krzywą oraz przedział ufności dla danego związku wraz z zaznaczoną szarym kolorem krzywą odnoszącą się do grupy kontrolnej -- wody destylowanej. Krzywa przeżycia dla grupy \textcolor{Salmon}{kontrolnej} cechuje się stosunkowo stromym nachyleniem oraz wąskim przedziałem ufności. 
 
 \begin{figure}[h!]
     \centering
@@ -425,13 +387,8 @@ W celu dokładniejszej eksploracji działania badanych związków na trwałość
     \label{fig:compounds_km}
 \end{figure}
 
-\par Krzywe Kaplana-Meiera dla związków \textcolor{TealBlue}{szkodliwych} (2, 3, 10) przebiegają znacznie poniżej poziomu kontrolnego. Cechują się gwałtownym spadkiem prawdopodobieństwa przeżycia już od momentu rozpoczęcia eksperymentu. Ich strome nachylenie oraz wąskie przedziały ufności sugerują wysoką toksyczność roztworów oraz niemal jednoczesne obumieranie większości kwiatów w tych grupach.
+\par Przedstawiona wizualizacja potwierdza po raz kolejny, że każdy z jedenastu związków wykazuje się znacznie wyższą skutecznością w konserwacji ciętych kwiatów niż woda destylowana. Niemal wszystkie krzywe przeżycia przebiegają wyraźnie ponad krzywą dla grupy kontrolnej. W przypadku związków 6 (\textit{Essence of Epiphaneia}) oraz 7 (\textit{Four in December}) krzywe pokrywają się z grupą kontrolną, ale jedynie we wczesnej fazie trwania eksperymentu, globalnie nadal wskazując na korzystny wpływ wspomnianych substancji na przeżywalność kwiatów.
 
-\par Związki należące do grupy \textcolor{Orchid}{umiarkowanej} (7, 9, 14) charakteryzują się przebiegiem krzywych zbliżonych do grupy kontrolnej. Krzywe znajdują się blisko grupy kontrolnej, pokrywając się, bądź zachowując zbliżony kształt, co wskazuje na podobny wzorzec przeżycia i umiarkowane działanie związków na przeżywalność kwiatów.
-
-\par Najliczniejsza grupa związków \textcolor{YellowGreen}{obiecujących} cechuje się przebiegiem krzywych powyżej krzywej kontrolnej, wskazując na wydłużony czas przeżycia kwiatów. Szczególnie wyraźne odchylenie od grupy kontrolnej obserwowane jest dla związków: 8, 11, 13, w przypadku, których prawdopodobieństwo przeżycia po upływie 20 dni nadal wynosiło około 50\%. Dla części związków przedziały ufności w niewielkim stopniu nakładają się na przedział grupy kontrolnej (6, 14).
-
-\par Zdecydowana większość krzywych wykazuje płynny, monotoniczny spadek i wskazuje na stopniowe narastanie ryzyka w czasie. Wykres ten ma charakter wyłącznie eksploracyjny, stanowi podstawę do zastosowania modelu Weibulla oraz uzasadnia wykorzystanie zmiennej \texttt{compound} jako zmiennej wyjaśniającej, kategorycznej w tymże modelu.
 
 % ============================================================
 % KRZYWE PRZEŻYCIA DLA ZMIENNYCH: GARDEN I SPECIES
@@ -454,12 +411,12 @@ Krzywe przeżycia Kaplana-Meiera według ogrodu, z którego pochodziły jednostk
     \label{fig:species_km}
 \end{figure}
 
-W obu przypadkach nie stwierdzono istotnych różnic w przeżywalności między grupami. Test log-rank nie wykazał istotnych statystycznie różnic dla ogrodu (p-value = 0,55) ani dla gatunku (p = 0,78), a krzywe niemal całkowicie się pokrywały. Krzywe w obu przypadkach nie przecinają się, co potwierdza zasadność założenia proporcjonalnych hazardów dla obu zmiennych.
+W obu przypadkach krzywe przeżycia dla poszczególnych grup niemal całkowicie się pokrywają, co sugeruje brak wyraźnego zróżnicowania przeżywalności między ogrodami ani między gatunkami. Krzywe nie przecinają się, co jest zgodne z założeniem proporcjonalnych hazardów dla obu zmiennych.
 
 % ============================================================
 % OCENA ZASADNOŚCI MODELU WEIBULLA - CLOGCLOG
 % ============================================================
-\subsection{Ocena zasadności modelu Weibulla}\label{subsec:cloglog}
+\subsection{\textcolor{red}{Ocena zasadności modelu Weibulla}}\label{subsec:cloglog}
 W celu oceny zasadności zastosowania modelu Weibulla sporządzono wykres~\ref{fig:cloglog} \textbf{CLogLog}: $\log(-\log \hat{S}(t))$ w funkcji $\log(t)$ (ang. \textit{Complementary log-log}) dla czterech grup związków. 
 
 \begin{figure}[h!]
@@ -496,10 +453,10 @@ Założono, że dla każdej $i$-tej róży czas przeżycia $T_i$ ma następując
     \label{eq:weibull_model}
 \end{equation}
 
-gdzie $k > 0$ jest wspólnym parametrem kształtu, a $\lambda_i > 0$ jest parametrem skali  jednostki $i$. Parametr skali $\lambda_i$ zależy od zmiennych objaśniających i jest modelowany na skali logarytmicznej:
+gdzie $k > 0$ jest wspólnym parametrem kształtu, a $\lambda_i > 0$ jest parametrem skali jednostki $i$. Oczekiwany czas przeżycia modelowany jest na skali logarytmicznej:
 
 \begin{equation}
-    \log \lambda_i = \beta_0 + \alpha_{c(i)} + \gamma_{s(i)} + b_{g(i)}
+    \log \mathbb{E}[T_i] = \beta_0 + \alpha_{c(i)} + \gamma_{s(i)} + \delta_{g(i)}
     \label{eq:linear_predictor}
 \end{equation}
 
@@ -508,15 +465,20 @@ gdzie:
     \item $\beta_0$ -- wyraz wolny; logarytm parametru skali grupy kontrolnej (związek 1), gatunku referencyjnego (\textit{T. floribunda}) oraz przeciętnego efektu ogrodu,
     \item $\alpha_{c(i)}$ -- efekt stały związku $c(i)$; $c(i) \in \{1, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15\}$, przyjmując związek 1 (woda destylowana) jako grupę referencyjną, dla której $\alpha_1 = 0$,
     \item $\gamma_{s(i)}$ -- efekt stały gatunku róży $s(i) \in \{1, 2\}$, przyjmując gatunek \textit{T. floribunda} (species 1) jako grupę referencyjną, dla której $\gamma_1 = 0$ ,
-    \item $b_{g(i)} \sim \mathcal{N}(0,\, \sigma_g^2)$ -- efekt losowy ogrodu $g(i) \in \{1, 2\}$.
+    \item $\delta_{g(i)}$ -- efekt stały ogrodu $g(i) \in \{1, 2\}$, przyjmując ogród 1 jako referencyjny, dla którego $\delta_1 = 0$.
 \end{itemize}
+
+Dla rozkładu Weibulla oczekiwany czas przeżycia wynosi $\mathbb{E}[T_i] = \lambda_i \cdot \Gamma(1+1/k)$~\cite{stan_survival}, stąd parametr skali dla związku $c$ przy referencyjnych poziomach gatunku i ogrodu wyznaczany jest jako~\cite{brms_families}:
+\[
+    \lambda_c = \frac{\exp(\beta_0 + \alpha_c)}{\Gamma(1 + 1/k)}
+\]
 
 Obserwacje prawostronnie cenzurowane uwzględniane są w funkcji 
 wiarygodności zgodnie ze standardowym podejściem analizy przeżycia.
-Niech $\delta_i$ oznacza wskaźnik wystąpienia zdarzenia dla $i$-tej jednostki:
+Niech $\varepsilon_i$ oznacza wskaźnik wystąpienia zdarzenia dla $i$-tej jednostki:
 
 \begin{equation}
-    \delta_i = \begin{cases}
+    \varepsilon_i = \begin{cases}
         1 & \text{jeśli zdarzenie wystąpiło (róża obumarła),} \\
         0 & \text{jeśli obserwacja jest cenzurowana.}
     \end{cases}
@@ -525,9 +487,9 @@ Niech $\delta_i$ oznacza wskaźnik wystąpienia zdarzenia dla $i$-tej jednostki:
 Wówczas funkcja wiarygodności dla wszystkich $n$ jednostek przyjmuje następującą postać \parencite{qian1994}:
 
 \begin{equation}
-    L(\mathbf{t} \mid k, \boldsymbol{\lambda}) = 
-    \prod_{i=1}^{n} f(t_i \mid k, \lambda_i)^{\delta_i} \cdot 
-    S(t_i \mid k, \lambda_i)^{1-\delta_i}
+    L(\mathbf{t} \mid k, \boldsymbol{\lambda}) =
+    \prod_{i=1}^{n} f(t_i \mid k, \lambda_i)^{\varepsilon_i} \cdot
+    S(t_i \mid k, \lambda_i)^{1-\varepsilon_i}
     \label{eq:likelihood}
 \end{equation}
 
@@ -536,10 +498,10 @@ Wówczas funkcja wiarygodności dla wszystkich $n$ jednostek przyjmuje następuj
     \exp\!\left[-\!\left(\frac{t_i}{\lambda_i}\right)^k\right]
 \end{equation}
 
-gdzie $f(t_i \mid k, \lambda_i)$ (równanie~\eqref{eq:weibull_density}) jest funkcją gęstości rozkładu Weibulla, a $S(t_i \mid k, \lambda_i)$ 
-(równanie~\eqref{eq:weibull_model}) jest funkcją przeżycia. Jednostki, dla których wystąpiło zdarzenie 
-($\delta_i = 1$), wnoszą do wiarygodności pełną gęstość $f(t_i)$, z kolei 
-jednostki prawostronnie cenzurowane ($\delta_i = 0$) wyłącznie $S(t_i)$, co odzwierciedla jedynie fakt przeżycia do czasu $t_i$.
+gdzie $f(t_i \mid k, \lambda_i)$ (równanie~\eqref{eq:weibull_density}) jest funkcją gęstości rozkładu Weibulla, a $S(t_i \mid k, \lambda_i)$
+(równanie~\eqref{eq:weibull_model}) jest funkcją przeżycia. Jednostki, dla których wystąpiło zdarzenie
+($\varepsilon_i = 1$), wnoszą do wiarygodności pełną gęstość $f(t_i)$, z kolei
+jednostki prawostronnie cenzurowane ($\varepsilon_i = 0$) wyłącznie $S(t_i)$, co odzwierciedla jedynie fakt przeżycia do czasu $t_i$.
 W przypadku danych pilotażowych odsetek obserwacji cenzurowanych wyniósł 0\%, 
 zatem wszystkie jednostki wnoszą pełną gęstość do funkcji wiarygodności.
 
@@ -562,7 +524,7 @@ Na podstawie eksploracyjnej analizy danych pilotażowych oraz wyników dopasowan
 \begin{itemize}
     \item \textbf{Związek (\texttt{compound})} -- uwzględniony jako kategoryczna zmienna stała. Punkt odniesienia stanowi związek 1 -- woda destylowana, w modelu odpowiednio $\alpha_1 = 0$. Zmienna ta stanowi główny przedmiot zainteresowania analizy.
 
-    \item \textbf{Ogród (\texttt{garden})} -- uwzględniony jako efekt losowy ($b_g \sim \mathcal{N}(0, \sigma_g^2)$), pomimo braku istotnych różnic w przeżywalności między ogrodami na podstawie danych pilotażowych (log-rank: $p = 0{,}55$). Wprowadzenie zmiennej blokującej ogród miało na celu kontrolę potencjalnej zmienności środowiskowej jednostek eksperymentalnych i stanowiło jedno z założeń schematu badania, dlatego bez względu na nieistotne wyniki testu log-rank włączono ją do modelu. Ogród uwzględniono jako efekt losowy, ponieważ dwa ogrody objęte badaniem stanowią próbę z szerszej populacji możliwych warunków uprawy, a celem analizy jest uogólnienie wniosków poza te konkretne lokalizacje.
+    \item \textbf{Ogród (\texttt{garden})} -- uwzględniony jako efekt stały ($\delta_g \sim \mathcal{N}(0;\, 0{,}24)$), pomimo braku istotnych różnic w przeżywalności między ogrodami na podstawie danych pilotażowych (log-rank: $p = 0{,}55$). Wprowadzenie zmiennej blokującej ogród miało na celu kontrolę potencjalnej zmienności środowiskowej jednostek eksperymentalnych i stanowiło jedno z założeń schematu badania, dlatego bez względu na nieistotne wyniki testu log-rank włączono ją do modelu. Ogród uwzględniono jako efekt stały, ponieważ przedmiotem zainteresowania jest konkretna różnica między dwoma badanymi lokalizacjami.
 
     \item \textbf{Gatunek (\texttt{species})} -- uwzględniony jako efekt stały w modelu. Podobnie jak w przypadku zmiennej \texttt{garden}, w analizie eksploracyjnej danych pilotażowych nie wykryto istotnych różnic w przeżywalności między gatunkami róż (log-rank: $p = 0{,}78$). Analogicznie ze względu na przyjęty schemat eksperymentu zmienna gatunek stanowi część modelu. Gatunek uwzględniono jako efekt stały, ponieważ przedmiotem zainteresowania jest konkretna różnica między dwoma badanymi gatunkami.
 
@@ -606,26 +568,22 @@ Przyjęty rozkład a priori przypisuje prawdopodobieństwo $P(k > 1) \approx 99{
         \label{fig:prior_pred_surv}
 \end{figure}
 \newpage
-\subsubsection{Parametry skali: wyraz wolny $\beta_0$ i efekty $\alpha_c$, $\gamma_s$ (skala $\log\lambda$)}
+\subsubsection{Wyraz wolny $\beta_0$ i efekty $\alpha_c$, $\gamma_s$, $\delta_g$ (skala $\log \mathbb{E}[T]$)}
 
 \begin{align}
-    \beta_0 &\sim \mathcal{N}(2{,}918; 0{,}363) \\
-    \alpha_c &\sim \mathcal{N}(0; 0{,}22) \\
-    \gamma_s &\sim \mathcal{N}(0; 0{,}22)
+    \beta_0  &\sim \mathcal{N}(2{,}918;\; 0{,}363) \\
+    \alpha_c &\sim \mathcal{N}(0;\; 0{,}24) \\
+    \gamma_s &\sim \mathcal{N}(0;\; 0{,}24) \\
+    \delta_g &\sim \mathcal{N}(0;\; 0{,}24)
 \end{align}
 
 \par Wartość oczekiwaną $E[\beta_0] = 2{,}918$ rozkładu a priori parametru $\beta_0$ otrzymano w wyniku dopasowania modelu Weibulla zawierającego wyłącznie wyraz wolny do każdej z możliwych unikalnych kombinacji czynników \texttt{compound} $\times$ \texttt{species} $\times$ \texttt{garden} w danych pilotażowych. Dla każdej z grup wyestymowano parametr $\log(\hat{\mu})$, który odnosi się do typowego logarytmu czasu przeżycia w danej grupie. Ostatecznie uśredniając otrzymane estymacje otrzymano wartość oczekiwaną rozkładu a priori parametru $\beta_0$. Wartość odchylenia standardowego dla otrzymanych estymacji powiększono 1,5 razy, aby nie otrzymać nazbyt wąskiego rozkładu a priori, stąd ostateczna wartość odchylenia standardowego wyniosła 0{,}363.
 
 \par W przypadku parametrów $\alpha_c$ oraz $\gamma_s$ za wartość oczekiwaną przyjęto 0, nie zakładając uprzednio, że czynniki te wpływają na wydłużenie, bądź skrócenie czasu przeżycia kwiatów. Otrzymane wcześniej (przy estymacji parametrów rozkładu a priori $\beta_0$) wartości $\log(\hat{\mu})$ wykorzystano w celu wyznaczenia odchylenia standardowego. Pogrupowanie komórek względem \texttt{compound} $\times$ \texttt{species} oraz uśrednienie wartości $\log(\hat{\mu})$ w obrębie każdej grupy po ogrodach, pozwoliło wyeliminować zmienność wynikającą z ogrodu. Odchylenie standardowe obliczone na podstawie tak otrzymanych średnich grupowych wyniosło $0{,}22$ i zostało przyjęte jako parametr rozkładów a priori dla $\alpha_c$ oraz $\gamma_s$. Wartości odchylenia standardowego nie powiększano, gdyż odzwierciedla ono rzeczywiste zróżnicowanie między grupami w danych pilotażowych. Ten sam rozkład a priori przyjęto dla $\alpha_c$ oraz $\gamma_s$, gdyż oba parametry działają na tej samej skali $\log\lambda$, a przyjęcie wspólnego rozkładu stanowi swego rodzaju uproszczenie uzasadnione ograniczoną liczebnością danych pilotażowych.
 
-\subsubsection{Odchylenie standardowe efektu losowego ogrodu $\sigma_g$}
+\subsubsection{Efekt stały ogrodu $\delta_g$}
 
-\begin{equation}
-    \sigma_g \sim \mathrm{HalfNormal}(0;\ 0{,}283)
-    \label{eq:prior_sigma_g}
-\end{equation}
-
-Rozkład półnormalny gwarantuje dodatniość parametru $\sigma_g$, który jako odchylenie standardowe efektu losowego musi być nieujemny. Wartość parametru skali $0{,}283$ wyznaczono na podstawie danych pilotażowych: dla każdej kombinacji \texttt{compound} $\times$ \texttt{species} obliczono różnicę $\log(\hat{\mu})$ między ogrodami, a następnie wyznaczono odchylenie standardowe tych różnic ($0{,}189$). Otrzymaną wartość powiększono 1{,}5 razy, aby uniknąć nadmiernego zawężenia rozkładu a priori. W przyjętym rozkładzie większość masy prawdopodobieństwa koncentruje się wokół wartości bliskim zeru, nie wyklucza on jednak przyjęcia większych wartości $\sigma_g$, jeśli dane główne będą tego wymagać.
+Efekt stały ogrodu $\delta_g$ otrzymuje rozkład a priori $\mathcal{N}(0;\; 0{,}24)$, tożsamy z rozkładami przyjętymi dla pozostałych efektów stałych $\alpha_c$ i $\gamma_s$. Wartość oczekiwana równa zeru oznacza brak apriorycznego założenia co do kierunku wpływu ogrodu, zaś odchylenie standardowe $0{,}24$ wyznaczono na podstawie danych pilotażowych analogicznie do $\alpha_c$ i $\gamma_s$.
 
 \section{Analiza wrażliwości}\label{sec:sensitivity_analysis}
 Model zostanie dopasowany dwukrotnie, w celu oceny wrażliwości wyników na wybór rozkładów a priori modelu. Pierwszy raz uwzględniając rozkłady a priori z parametrami skalibrowanymi na podstawie danych pilotażowych oraz drugi stosując analogiczne słabo informacyjne rozkłady. Rozkłady a priori przyjęte do analizy wrażliwości:
@@ -640,9 +598,9 @@ Model zostanie dopasowany dwukrotnie, w celu oceny wrażliwości wyników na wyb
 Wyniki obu modeli zostaną porównane pod względem median a posteriori efektów związków $\alpha_c$ oraz kolejności w rankingu. W przypadku zbieżnych wniosków uznać można będzie, że przyjęte na podstawie danych pilotażowych rozkłady a priori nie dominują nad danymi. W przypadku problemów ze zbieżnością łańcuchów modelu wrażliwości analogicznie zastosowane zostaną procedury opisane w Sekcji~\ref{subsec:convergence}.
 
 \section{Estymacja modelu i wnioskowanie}
-Model Weibulla opisany w Sekcji~\ref{sec:model_structure} zostanie dopasowany z wykorzystaniem pakietu \texttt{brms}~\cite{burkner2017brms} w środowisku R. Pakiet ten umożliwia estymację bayesowską modeli regresyjnych poprzez próbkowanie z rozkładu a posteriori z wykorzystaniem algorytmu HMC (ang. \textit{Hamiltonian Monte Carlo}) zaimplementowanego w języku Stan. Mediana czasu przeżycia dla związku $c$ wyznaczona zostanie jako mediana wartości $\exp(\beta_0^{(s)} + \alpha_c^{(s)}) \cdot (\ln 2)^{1/k^{(s)}}$ po wszystkich próbkach a posteriori. Prawdopodobieństwa przeżycia dla drugorzędowych punktów końcowych obliczone zostaną jako uśrednione po próbkach wartości funkcji przeżycia Weibulla:
+Model Weibulla opisany w Sekcji~\ref{sec:model_structure} zostanie dopasowany z wykorzystaniem pakietu \texttt{brms}~\cite{burkner2017brms} w środowisku R. Pakiet ten umożliwia estymację bayesowską modeli regresyjnych poprzez próbkowanie z rozkładu a posteriori z wykorzystaniem algorytmu HMC (ang. \textit{Hamiltonian Monte Carlo}) zaimplementowanego w języku Stan. Mediana czasu przeżycia dla związku $c$ wyznaczona zostanie jako mediana wartości $\lambda_c^{(s)} \cdot (\ln 2)^{1/k^{(s)}}$ po wszystkich próbkach a posteriori, gdzie $\lambda_c^{(s)} = \exp(\beta_0^{(s)} + \alpha_c^{(s)})\,/\,\Gamma(1+1/k^{(s)})$. Prawdopodobieństwa przeżycia dla drugorzędowych punktów końcowych obliczone zostaną jako uśrednione po próbkach wartości funkcji przeżycia Weibulla:
 \[
-    \hat{S}_c(t) = \frac{1}{S}\sum_{s=1}^{S} \exp\!\left[-\!\left(\frac{t}{\lambda_c^{(s)}}\right)^{\!k^{(s)}}\right], \quad t \in \{10,\, 22\}, \quad \lambda_c^{(s)} = \exp\!\left(\beta_0^{(s)} + \alpha_c^{(s)}\right)
+    \hat{S}_c(t) = \frac{1}{S}\sum_{s=1}^{S} \exp\!\left[-\!\left(\frac{t}{\lambda_c^{(s)}}\right)^{\!k^{(s)}}\right], \quad t \in \{10,\, 22\}, \quad \lambda_c^{(s)} = \frac{\exp\!\left(\beta_0^{(s)} + \alpha_c^{(s)}\right)}{\Gamma\!\left(1+1/k^{(s)}\right)}
 \]
 
 \subsection{Ustawienia MCMC}

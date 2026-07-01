@@ -1,3 +1,6 @@
+# =====================================================
+# Statystyki opisowe dla głównych danych
+# =====================================================
 library(dplyr)
 rose <- read.csv2("roses_analysis2_final.csv")
 rose <- as.data.frame(rose)

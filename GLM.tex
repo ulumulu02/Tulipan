@@ -1,0 +1,334 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{parskip}
+
+\definecolor{accentblue}{RGB}{23, 92, 163}
+\definecolor{lightblue}{RGB}{230, 241, 251}
+\definecolor{borderblue}{RGB}{180, 212, 244}
+\definecolor{darkgray}{RGB}{60, 60, 60}
+\definecolor{medgray}{RGB}{120, 120, 120}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries\color{darkgray} Uogólnione Modele Liniowe}\\[4pt]
+  {\normalsize\color{medgray} dr n.\ o~zdr.\ Urszula Cwalina\quad|\quad Spis treści wykładów}
+\end{center}
+
+\vspace{0.5em}
+\noindent\rule{\linewidth}{0.4pt}
+\vspace{0.8em}
+% -------------------------------------------------------
+%  WYKŁAD 06
+% -------------------------------------------------------
+\begin{mdframed}[
+  backgroundcolor=lightblue,
+  linecolor=borderblue,
+  linewidth=0.8pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  roundcorner=4pt
+]
+  \textbf{\color{accentblue}Wykład 06\quad|\quad}{\color{darkgray}GLM -- wprowadzenie i regresja logistyczna cz.\ 1}
+\end{mdframed}
+ 
+\vspace{0.4em}
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=1.8em, itemsep=3pt, topsep=2pt]
+  \item \textbf{Motywacja -- dlaczego modele?}\\
+        {\small\color{medgray}zmienne wikłające, kierunek i siła efektu, predykcja, wiele zmiennych}
+  \item \textbf{Ogólny model liniowy (General linear model)}\\
+        {\small\color{medgray}zapis macierzowy, składnik losowy $\varepsilon_i \sim N(0,\sigma^2)$}
+  \item \textbf{GLM -- 3 komponenty}\\
+        {\small\color{medgray}losowy, systematyczny (predyktor liniowy), funkcja wiążąca (link)}
+  \item \textbf{Rodzina wykładnicza rozkładów prawdopodobieństwa}\\
+        {\small\color{medgray}dwumianowy, Poissona, normalny}
+  \item \textbf{Funkcje wiążące -- przykłady}\\
+        {\small\color{medgray}identity, logarytm, logit, probit, log-log, cloglog}
+  \item \textbf{GLM w R -- rodziny i dostępne funkcje łączące}\\
+        {\small\color{medgray}\texttt{binomial}, \texttt{gaussian}, \texttt{poisson}, \texttt{quasi}}
+  \item \textbf{Założenia GLM}\\
+        {\small\color{medgray}niezależność obserwacji, błąd tylko w zmiennej zależnej}
+  \item \textbf{Regresja logistyczna -- motywacja}\\
+        {\small\color{medgray}zmienna binarna, ograniczenia regresji liniowej}
+  \item \textbf{Model logitowy -- definicja}\\
+        {\small\color{medgray}funkcja logistyczna $\pi(x) = e^z/(1+e^z)$, związek logit--prawdopodobieństwo}
+  \item \textbf{Probit czy logit? -- porównanie}\\
+        {\small\color{medgray}kształt krzywych, interpretacja przez OR, praktyczne wskazówki; wykres probit/logit/cloglog}
+  \item \textbf{Przykład: Żuczki}\\
+        {\small\color{medgray}logit vs probit vs cloglog w Stata, porównanie AIC i log-likelihood}
+  \item \textbf{Przykład: CHD}\\
+        {\small\color{medgray}dane (100 osób, wiek, choroba wieńcowa), wykresy, model \texttt{glm()} w R}
+\end{enumerate}
+ 
+\vspace{1em}
+ 
+% -------------------------------------------------------
+%  WYKŁAD 07
+% -------------------------------------------------------
+\begin{mdframed}[
+  backgroundcolor=lightblue,
+  linecolor=borderblue,
+  linewidth=0.8pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  roundcorner=4pt
+]
+  \textbf{\color{accentblue}Wykład 07\quad|\quad}{\color{darkgray}Regresja logistyczna cz.\ 2}
+\end{mdframed}
+ 
+\vspace{0.4em}
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=1.8em, itemsep=3pt, topsep=2pt]
+  \item \textbf{Interpretacja modelu -- iloraz szans (OR)}\\
+        {\small\color{medgray}$OR = e^{\beta_1}$, wzrost predyktora o 1 jednostkę, warunek braku efektu $OR=1$}
+  \item \textbf{Przewidywane prawdopodobieństwo i MEL}\\
+        {\small\color{medgray}obliczanie $\pi(x)$, median effective level $= -\alpha/\beta_1$}
+  \item \textbf{Przedziały ufności dla efektu ($e^\beta$)}\\
+        {\small\color{medgray}95\% PI dla $\beta$ i dla $\exp(\beta)$, interpretacja}
+  \item \textbf{Test istotności -- statystyka Walda}\\
+        {\small\color{medgray}$z = \hat\beta / ASE$, wersja $z$ i $\chi^2_1$}
+  \item \textbf{Statystyka testu ilorazu wiarygodności (LRT)}\\
+        {\small\color{medgray}$G^2 = -2\log(L_0/L_1)$, rozkład $\chi^2_1$, przewaga nad Waldem przy małych próbach}
+  \item \textbf{Rozkład estymatorów prawdopodobieństwa}\\
+        {\small\color{medgray}ASE logitu, 95\% PI dla $\pi(x_0)$, macierz kowariancji \texttt{vcov()}}
+  \item \textbf{Ocena dopasowania modelu -- dewiancja $D^2$}\\
+        {\small\color{medgray}model vs model nasycony, założenie $n_j \geq 5$ dla 75\% podgrup}
+  \item \textbf{Ocena dopasowania -- statystyka Pearsona $X^2$}\\
+        {\small\color{medgray}definicja, rozkład $\chi^2_{R-p}$}
+  \item \textbf{Modele zagnieżdżone -- LRT}\\
+        {\small\color{medgray}$G^2(M_1|M_2) = D^2_{M_1} - D^2_{M_2}$, tabela porównań (vs nasycony / vs zagnieżdżony)}
+  \item \textbf{Przykład: CHD}\\
+        {\small\color{medgray}\texttt{lrtest()}, \texttt{vcov()}, PI dla $\pi(67)$, Wald vs LRT}
+  \item \textbf{Przykład: TOXIC}\\
+        {\small\color{medgray}model liniowy i kwadratowy dawki, porównanie dewiancji, wybór modelu}
+\end{enumerate}
+ 
+\vspace{1em}
+ 
+% -------------------------------------------------------
+%  WYKŁAD 08
+% -------------------------------------------------------
+\begin{mdframed}[
+  backgroundcolor=lightblue,
+  linecolor=borderblue,
+  linewidth=0.8pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  roundcorner=4pt
+]
+  \textbf{\color{accentblue}Wykład 08\quad|\quad}{\color{darkgray}Regresja logistyczna cz.\ 3 -- Hosmer-Lemeshow \& Overdispersion}
+\end{mdframed}
+ 
+\vspace{0.4em}
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=1.8em, itemsep=3pt, topsep=2pt]
+  \item \textbf{Reszty Pearsona -- standardowe (unadjusted)}\\
+        {\small\color{medgray}definicja, asymptotyczny rozkład $N(0,1)$, wykrywanie braku dopasowania ($|r_j|>2$)}
+  \item \textbf{Reszty Pearsona -- adjusted (leverage)}\\
+        {\small\color{medgray}własności dźwigni $h_j$, reguła $h_j > 2\bar{h}$}
+  \item \textbf{Reszty dewiancji}\\
+        {\small\color{medgray}definicja, znak jak $y_j - n_j\hat\pi_j$, adjusted deviance residuals}
+  \item \textbf{Diagnostyka graficzna reszt}\\
+        {\small\color{medgray}obserwowane vs oczekiwane proporcje, reszty vs zmienne objaśniające}
+  \item \textbf{Reszty w R}\\
+        {\small\color{medgray}\texttt{resid(type="pearson")}, \texttt{resid(type="deviance")}, \texttt{hatvalues()} -- przykład TOXIC}
+  \item \textbf{Problem ciągłego predyktora a ocena dopasowania}\\
+        {\small\color{medgray}małe podgrupy, dwie strategie: grupowanie lub Hosmer-Lemeshow}
+  \item \textbf{Statystyka Hosmer-Lemeshow}\\
+        {\small\color{medgray}podział na $g$ grup (decyle), $(g-1)$ indykatorów, $\hat{C} \sim \chi^2_{g-2}$}
+  \item \textbf{Przykład: CHD}\\
+        {\small\color{medgray}\texttt{hoslem.test()} z pakietu \texttt{ResourceSelection}, interpretacja $p$-value}
+  \item \textbf{Overdispersion -- definicja i przyczyny}\\
+        {\small\color{medgray}pominięta zmienna, interakcje, obserwacje odstające, korelacja, zła funkcja łącząca}
+  \item \textbf{Miara rozrzutu -- skalowanie ($\hat\phi$)}\\
+        {\small\color{medgray}skalowana dewiancja $D^2/df$, skalowana statystyka Pearsona $X^2/df$, wartości $>1$}
+  \item \textbf{Przykład: Szczurki}\\
+        {\small\color{medgray}model dwumianowy w R, wykrycie overdispersion przez $p$-value i $\chi^2/df$}
+  \item \textbf{Korekcja overdispersion}\\
+        {\small\color{medgray}\texttt{glm.binomial.disp()} z pakietu \texttt{dispmod}, ważona estymacja, wpływ na SE i $p$-value}
+\end{enumerate}
+
+% -------------------------------------------------------
+%  WYKŁAD 09
+% -------------------------------------------------------
+\begin{mdframed}[
+  backgroundcolor=lightblue,
+  linecolor=borderblue,
+  linewidth=0.8pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  roundcorner=4pt
+]
+  \textbf{\color{accentblue}Wykład 09\quad|\quad}{\color{darkgray}Regresja logistyczna wielokrotna}
+\end{mdframed}
+
+\vspace{0.4em}
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=1.8em, itemsep=3pt, topsep=2pt]
+  \item \textbf{Regresja logistyczna wielokrotna} --- wprowadzenie\\
+        {\small\color{medgray}zmienne jakościowe i ilościowe, zmienne dummy, interakcje}
+  \item \textbf{Zmienne sztuczne (dummy)}\\
+        {\small\color{medgray}kodowanie zmiennych nominalnych, kategoria odniesienia, interpretacja OR}
+  \item \textbf{Tabele wielodzielcze --- model addytywny}\\
+        {\small\color{medgray}brak interakcji, jednorodność ilorazów szans (OR)}
+  \item \textbf{Warunkowa niezależność}\\
+        {\small\color{medgray}test LR, statystyka Walda, test Cochran-Mantel-Haenszel (CMH)}
+  \item \textbf{Wspólny OR (common conditional OR)}\\
+        {\small\color{medgray}estymacja ML, estymator Mantel-Haenszel}
+  \item \textbf{Jednorodność OR}\\
+        {\small\color{medgray}statystyka Breslow-Day, testy $\chi^2$ i $G^2$}
+  \item \textbf{Kryteria porównywania modeli}\\
+        {\small\color{medgray}AIC, BIC, test ilorazu wiarygodności (LRT)}
+  \item \textbf{Przykład: AZT/AIDS}\\
+        {\small\color{medgray}wspólny conditional OR, test warunkowej niezależności i jednorodności, wyniki w~R}
+  \item \textbf{Przykład: Horseshoe Crab}\\
+        {\small\color{medgray}zmienne dummy dla koloru, interakcje kolor$\times$szerokość, test LR dla koloru, interpretacja OR}
+\end{enumerate}
+
+\vspace{1em}
+
+% -------------------------------------------------------
+%  WYKŁAD 10
+% -------------------------------------------------------
+\begin{mdframed}[
+  backgroundcolor=lightblue,
+  linecolor=borderblue,
+  linewidth=0.8pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  roundcorner=4pt
+]
+  \textbf{\color{accentblue}Wykład 10\quad|\quad}{\color{darkgray}Modele logitowe dla zmiennych o~wielu kategoriach}
+\end{mdframed}
+
+\vspace{0.4em}
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=1.8em, itemsep=3pt, topsep=2pt]
+  \item \textbf{Przegląd modeli dla zmiennych wielokategorialnych}\\
+        {\small\color{medgray}baseline logits, adjacent logits, continuation ratio logits, proportional odds}
+  \item \textbf{Rozkład wielomianowy}\\
+        {\small\color{medgray}prawdopodobieństwa kategorii, średnia i wariancja}
+  \item \textbf{Baseline logits model (nominalna regresja logistyczna)}\\
+        {\small\color{medgray}kategoria odniesienia, ryzyko względne, interpretacja $\beta$, OR między dowolnymi kategoriami}
+  \item \textbf{Kryteria informacyjne AIC, AIC\textsubscript{c}, BIC}\\
+        {\small\color{medgray}definicje, kiedy stosować, porównanie modeli}
+  \item \textbf{Adjacent logits model (porównanie sąsiednich kategorii)}\\
+        {\small\color{medgray}OR, common slopes, partial common slopes, \texttt{acat} w~VGAM}
+  \item \textbf{Continuation ratio logits model (model warunkowy)}\\
+        {\small\color{medgray}wariant forward i reverse, OR, common slopes, \texttt{cratio} w~VGAM}
+  \item \textbf{Cumulative-logits model}\\
+        {\small\color{medgray}skumulowany logit, OR, common slopes}
+  \item \textbf{Regresja proporcjonalnych szans (proportional odds)}\\
+        {\small\color{medgray}własności, zmiana kodów/kolejności kategorii, łączenie kategorii, \texttt{propodds} w~VGAM}
+  \item \textbf{Inne funkcje łączące}\\
+        {\small\color{medgray}probit w~modelu skumulowanym (\texttt{cumulative(link="probit")})}
+  \item \textbf{Przykład: Mental Health}\\
+        {\small\color{medgray}R: \texttt{VGAM}, \texttt{nnet}, \texttt{effects}; porównanie wszystkich modeli (AIC/BIC/LRT); interpretacja OR; wykresy efektów}
+\end{enumerate}
+
+% -------------------------------------------------------
+%  WYKŁAD 11
+% -------------------------------------------------------
+\begin{mdframed}[
+  backgroundcolor=lightblue,
+  linecolor=borderblue,
+  linewidth=0.8pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  roundcorner=4pt
+]
+  \textbf{\color{accentblue}Wykład 11\quad|\quad}{\color{darkgray}Quasi-wiarygodność, GEE}
+\end{mdframed}
+ 
+\vspace{0.4em}
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=1.8em, itemsep=3pt, topsep=2pt]
+  \item \textbf{Modele dla zgrupowanych danych binarnych}\\
+        {\small\color{medgray}quasi-wiarygodność, GEE --- przegląd podejść}
+  \item \textbf{Overdispersion (nadmierny rozrzut)}\\
+        {\small\color{medgray}rozpoznawanie przez $\chi^2$ i $D^2$, możliwe przyczyny, konsekwencje (zaniżone SE)}
+  \item \textbf{GLM --- przypomnienie}\\
+        {\small\color{medgray}rodzina wykładnicza, predyktor liniowy, równania ML}
+  \item \textbf{Największa wiarygodność (ML)}\\
+        {\small\color{medgray}logarytm funkcji wiarygodności, równania estymujące, idea quasi-likelihood}
+  \item \textbf{Quasi-wiarygodność}\\
+        {\small\color{medgray}beta-binomial variance function, parametr dyspersji $\phi$, estymacja przez $\chi^2/(n-p)$}
+  \item \textbf{Metody numeryczne ML}\\
+        {\small\color{medgray}Newton-Raphson, Fisher scoring, IRWLS}
+  \item \textbf{Średnia i wariancja w rodzinie wykładniczej}\\
+        {\small\color{medgray}powiązanie $E(Y)$ i $\mathrm{Var}(Y)$ przez funkcję wariancji}
+  \item \textbf{Metody oparte o quasi-wiarygodność}\\
+        {\small\color{medgray}odporność na overdispersion, brak założeń o rozkładzie $Y$}
+  \item \textbf{Największa quasi-wiarygodność}\\
+        {\small\color{medgray}funkcja quasi-wiarygodności, warunki redukcji do ML}
+  \item \textbf{Przykład: Żelazo}\\
+        {\small\color{medgray}\texttt{glm} (binomial) vs \texttt{glm} (quasibinomial); GEE exchangeable i independence na danych zagregowanych i indywidualnych (\texttt{gee})}
+  \item \textbf{Idea GEE --- uogólnione równania estymujące}\\
+        {\small\color{medgray}analiza powtarzanych pomiarów, modele brzegowe, struktura wariancji-kowariancji}
+  \item \textbf{GEE --- kolejne etapy estymacji}\\
+        {\small\color{medgray}model brzegowy, working correlation matrix, robust SE}
+  \item \textbf{GEE --- working correlation matrix}\\
+        {\small\color{medgray}independence, exchangeable, unstructured, autoregressive}
+  \item \textbf{Przykład: Aborcja}\\
+        {\small\color{medgray}GEE independence vs exchangeable; naive SE vs robust SE; wnioski o płci i sytuacji}
+\end{enumerate}
+ 
+\vspace{1em}
+ 
+% -------------------------------------------------------
+%  WYKŁAD 12
+% -------------------------------------------------------
+\begin{mdframed}[
+  backgroundcolor=lightblue,
+  linecolor=borderblue,
+  linewidth=0.8pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  roundcorner=4pt
+]
+  \textbf{\color{accentblue}Wykład 12\quad|\quad}{\color{darkgray}Modele z efektami losowymi, clustered multinomial models}
+\end{mdframed}
+ 
+\vspace{0.4em}
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=1.8em, itemsep=3pt, topsep=2pt]
+  \item \textbf{Modele z efektami losowymi (random effects)}\\
+        {\small\color{medgray}model logitowo-normalny, efekt losowy klastra $u_i \sim N(0,\sigma_u^2)$, korelacja wewnątrz klastra}
+  \item \textbf{Przykład: Żelazo --- GLMM}\\
+        {\small\color{medgray}\texttt{glmer} (aproksymacja Laplace'a) vs \texttt{glmer} (kwadratura Gaussa-Hermite'a, \texttt{nAGQ=100}); interpretacja wariancji efektu losowego}
+  \item \textbf{Przykład: Insomnia --- opis badania}\\
+        {\small\color{medgray}podwójnie ślepa próba, lek vs placebo, czas zasypiania przed i po 2 tygodniach leczenia}
+  \item \textbf{Clustered multinomial models --- przegląd}\\
+        {\small\color{medgray}rozszerzenia: quasi-wiarygodność, GEE, modele z efektami losowymi}
+  \item \textbf{Regresja proporcjonalnych szans --- model GEE dla Insomnia}\\
+        {\small\color{medgray}predyktor z okazją, leczeniem i interakcją; interpretacja $\beta_1$, $\beta_3$}
+  \item \textbf{GEE dla danych porządkowych}\\
+        {\small\color{medgray}\texttt{ordLORgee}: \texttt{LORstr="independence"} vs \texttt{"category.exch"}; local odds ratios}
+  \item \textbf{Interpretacja wyników GEE --- Insomnia}\\
+        {\small\color{medgray}efekt czasu w grupie placebo ($e^{\beta_1}$) vs w grupie z lekiem ($e^{\beta_1+\beta_3}$)}
+  \item \textbf{Rozszerzenie do GLMM dla danych porządkowych}\\
+        {\small\color{medgray}model z efektem losowym dla pacjenta, $u_i \sim N(0,\sigma_u^2)$, korelacja między okazjami}
+  \item \textbf{GLMM dla Insomnia}\\
+        {\small\color{medgray}\texttt{clmm} z pakietu \texttt{ordinal}, \texttt{nAGQ=40}; progi (\textit{threshold coefficients}); wariancja efektu losowego}
+  \item \textbf{Porównanie GEE vs GLMM}\\
+        {\small\color{medgray}modele populacyjne (brzegowe) vs warunkowe; współczynniki wyższe w GLMM; tabela porównawcza}
+\end{enumerate}
+
+\end{document}

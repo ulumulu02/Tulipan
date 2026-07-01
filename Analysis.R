@@ -8,7 +8,8 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(purrr)
-
+# cmdstanr backend setup for faster and more efficient computing
+options(brms.backend = "cmdstanr")
 # ============================================================
 # 1. Data preparation (mirrors EDA.R logic for pilot data)
 # ============================================================
@@ -27,7 +28,7 @@ surv_final <- rose_final |>
   ) |>
   filter(!(compound %in% c(2, 3, 10))) |>
   droplevels()
-
+rm(rose_final)
 cat("n flowers:", nrow(surv_final), "\n")
 cat("Compounds:", paste(levels(surv_final$compound), collapse = ", "), "\n")
 cat("Censoring rate:", round(mean(surv_final$event == 0) * 100, 1), "%\n")
@@ -71,7 +72,7 @@ fit_main <- brm(
   warmup  = 1000,
   cores   = 4,
   seed    = 42,
-  file    = "fit_main"
+  file    = "models/fit_main"
 )
 
 # ============================================================
@@ -186,9 +187,9 @@ surv_curves <- map_dfr(compound_lvls, function(c_lvl) {
 })
 
 p_surv <- ggplot(surv_curves, aes(x = t)) +
-  geom_ribbon(aes(ymin = q025, ymax = q975), fill = "slateblue2", alpha = 0.15) +
-  geom_ribbon(aes(ymin = q25,  ymax = q75),  fill = "slateblue2", alpha = 0.30) +
-  geom_line(aes(y = q50), colour = "slateblue4", linewidth = 0.8) +
+  geom_ribbon(aes(ymin = q025, ymax = q975), fill = "#C868C8", alpha = 0.15) +
+  geom_ribbon(aes(ymin = q25,  ymax = q75),  fill = "#C868C8", alpha = 0.35) +
+  geom_line(aes(y = q50), colour = "#7B2D87", linewidth = 0.8) +
   geom_vline(xintercept = c(10, 22), linetype = "dashed",
              colour = "tomato", linewidth = 0.5) +
   facet_wrap(~ label, ncol = 3) +
@@ -227,7 +228,7 @@ p_rank <- ggplot(rank_df, aes(x = post_median, y = compound, colour = is_control
   geom_point(size = 3) +
   geom_vline(xintercept = ctrl_median, linetype = "dashed",
              colour = "grey40", linewidth = 0.6) +
-  scale_colour_manual(values = c("FALSE" = "slateblue4", "TRUE" = "grey40"),
+  scale_colour_manual(values = c("FALSE" = "#7B2D87", "TRUE" = "grey40"),
                       guide = "none") +
   labs(
     title    = "Ranking związków według mediany czasu przeżycia",
